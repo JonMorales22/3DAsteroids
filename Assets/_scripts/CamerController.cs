@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public static class AsteroidCounter
+{
+	public static int counter = 5;
+}
+
 public class CamerController : MonoBehaviour {
 	public float speedH = 2.0f;
 	public float speedV = 2.0f;
@@ -13,16 +18,21 @@ public class CamerController : MonoBehaviour {
 	public float max;
 
 	public GameObject missle;
-	public GameObject spawn;
+	public AudioClip[] clips;
+	public GameObject panel;
+
 
 	private float yaw = 0.0f;
 	private float pitch = 0.0f;
 	private float roll = 0.0f;
 	private Rigidbody rb;
+	private AudioSource audioSource;
 
 	// Use this for initialization
 	void Start () {
+		//panel = GameObject.FindWithTag ("CrashPanel");
 		rb = GetComponent<Rigidbody> ();
+		audioSource = GetComponent<AudioSource> ();
 	}
 
 	// Update is called once per frame
@@ -44,22 +54,57 @@ public class CamerController : MonoBehaviour {
 			Fire ();
 
 		if (Input.GetKey (KeyCode.UpArrow))
+		{
 			rb.AddForce (transform.forward * thrust);
+			playThrust ();
+		}
 		else if (Input.GetKey (KeyCode.DownArrow))
-			rb.AddForce (transform.forward * thrust*-1);
+		{
+			rb.AddForce (transform.forward * thrust * -1);
+			playThrust ();
+		}
+	}
+
+	void OnCollisionEnter(Collision c)
+	{
+		if (c.gameObject.CompareTag ("Asteroid")) 
+		{
+			StartCoroutine ("notifyCrash");
+			audioSource.PlayOneShot (clips [0]);
+		}
 	}
 
 	public void Fire()
 	{
+		audioSource.PlayOneShot (clips [2]);
 		GameObject foo = (GameObject)Instantiate (missle, transform.forward+transform.position, Quaternion.identity);
 		Rigidbody rb = foo.GetComponent<Rigidbody> ();
 		rb.AddForce (transform.forward * missleForce);
 		//foo.transform.rotation = Quaternion.LookRotation (rb.velocity);
 	}
 
-	public void Thrust()
+	public IEnumerator notifyCrash()
 	{
-
+		if (!panel.activeSelf)
+		{
+			panel.SetActive (true);
+			yield return new WaitForSeconds (2.0f);
+			panel.SetActive (false);
+		}
 
 	}
+
+	//AUDIO FUNCTIONS!!!!!
+	public void playExplosion()
+	{
+		audioSource.PlayOneShot (clips [1]);
+	}
+
+	void playThrust()
+	{
+		if (!audioSource.isPlaying)
+			audioSource.PlayOneShot (clips [3]);
+	}
+
+
 }

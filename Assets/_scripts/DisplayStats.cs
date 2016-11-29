@@ -17,5 +17,6 @@ public class DisplayStats : MonoBehaviour {
 		textArray [1].text = camera.transform.rotation.eulerAngles.x.ToString();
 		textArray [2].text = camera.transform.rotation.eulerAngles.z.ToString();
 		textArray [3].text = camera.transform.position.ToString();
+		textArray [4].text = AsteroidCounter.counter.ToString ();
 	}
 }
