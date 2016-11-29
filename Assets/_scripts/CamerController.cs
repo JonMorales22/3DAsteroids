@@ -3,7 +3,12 @@ using System.Collections;
 
 public static class AsteroidCounter
 {
-	public static int counter = 5;
+	public static int counter;
+
+	public static void setCounter(int num)
+	{
+		counter = num;
+	}
 }
 
 public class CamerController : MonoBehaviour {
@@ -65,13 +70,14 @@ public class CamerController : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter(Collision c)
+	void OnCollisionExit(Collision c)
 	{
 		if (c.gameObject.CompareTag ("Asteroid")) 
 		{
 			StartCoroutine ("notifyCrash");
 			audioSource.PlayOneShot (clips [0]);
 		}
+
 	}
 
 	public void Fire()

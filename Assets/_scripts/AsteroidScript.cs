@@ -2,26 +2,58 @@
 using System.Collections;
 
 public class AsteroidScript : MonoBehaviour {
-	public float force;
+	public float force=750.0f;
+	public float distance;
+	public Transform player;
 
+	private float randForce;
 	private int rotation;
 	private Vector3 dirVec;
 	private Rigidbody rb;
 	// Use this for initialization
 	void Start () {
+		randForce = Random.Range (5, 50);
 		rb = GetComponent<Rigidbody> ();
 		dirVec = randVector ();
-		rotation = Random.Range (5, 50);
-		force = Random.Range (1, 26);
-		//rb.AddTorque (new Vector3 (1, 0, 0) * force);
-		//rb.AddTorque (randVector()*force);
+		rb.AddForce (dirVec * force);
 	}
-	
+
 	// Update is called once per frame
 	void FixedUpdate () {
-		rb.AddTorque (dirVec * force);
-		transform.RotateAround(Vector3.zero, dirVec, rotation * Time.deltaTime);
+		rb.AddTorque (dirVec * randForce);
+		if (Mathf.Abs (transform.position.x) > distance || Mathf.Abs (transform.position.y) > distance || Mathf.Abs (transform.position.z) > distance) 
+		{
+			//transform.position = (Random.onUnitSphere)*100;
+
+			//Debug.Log ("Called");
+			killForces ();
+			//rb.velocity=Vector3.zero;
+			rb.AddForce ((Vector3.zero-dirVec) * force);
+		}
+			//transform.RotateAround(Vector3.zero, dirVec, rotation * Time.deltaTime);
 		//Vector3.up
+	}
+
+	public void Attack()
+	{
+		Vector3 rand = randVectorRadius ();
+		//killForces ();
+		rb.AddForce (((player.transform.position - transform.position) + rand) * 100.0f);
+	}
+
+	void killForces()
+	{
+		rb.velocity = Vector3.zero;
+		rb.angularVelocity = Vector3.zero;
+	}
+
+	Vector3 randVectorRadius()
+	{
+		int x = Random.Range (-3, 4);
+		int y = Random.Range (-3, 4);
+		int z = Random.Range (-3, 4);
+		Vector3 vec = new Vector3 (x,y,z);
+		return vec;
 	}
 
 	Vector3 randVector()
@@ -52,8 +84,4 @@ public class AsteroidScript : MonoBehaviour {
 		return vec;
 	}
 
-	int randNumber()
-	{
-		return Random.Range (5, 21);
-	}
 }
