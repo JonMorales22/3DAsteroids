@@ -16,5 +16,6 @@ public class DisplayStats : MonoBehaviour {
 		textArray [0].text = camera.transform.rotation.eulerAngles.y.ToString();
 		textArray [1].text = camera.transform.rotation.eulerAngles.x.ToString();
 		textArray [2].text = camera.transform.rotation.eulerAngles.z.ToString();
+		textArray [3].text = camera.transform.position.ToString();
 	}
 }

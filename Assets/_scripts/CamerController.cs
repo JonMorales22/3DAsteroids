@@ -40,7 +40,7 @@ public class CamerController : MonoBehaviour {
 		deltaVec.x = Mathf.Clamp (deltaVec.x, min, max);
 
 		transform.eulerAngles = deltaVec;
-		if (Input.GetMouseButtonDown (0) || Input.GetKeyDown (KeyCode.Space))
+		if (Input.GetMouseButtonDown (0))
 			Fire ();
 
 		if (Input.GetKey (KeyCode.UpArrow))
@@ -54,6 +54,7 @@ public class CamerController : MonoBehaviour {
 		GameObject foo = (GameObject)Instantiate (missle, transform.forward+transform.position, Quaternion.identity);
 		Rigidbody rb = foo.GetComponent<Rigidbody> ();
 		rb.AddForce (transform.forward * missleForce);
+		//foo.transform.rotation = Quaternion.LookRotation (rb.velocity);
 	}
 
 	public void Thrust()
