@@ -78,8 +78,8 @@ public class CamerController : MonoBehaviour {
 	public void Fire()
 	{
 		GameObject foo = (GameObject)Instantiate (missle, transform.forward+transform.position, Quaternion.identity);
-		Rigidbody rb = foo.GetComponent<Rigidbody> ();
-		rb.AddForce (transform.forward * missleForce);
+		Rigidbody missleRB = foo.GetComponent<Rigidbody> ();
+		missleRB.AddForce (transform.forward * missleForce);
 	}
 
 	public IEnumerator notifyCrash()
