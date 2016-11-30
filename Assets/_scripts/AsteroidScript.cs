@@ -5,6 +5,7 @@ public class AsteroidScript : MonoBehaviour {
 	public float force=750.0f;
 	public float distance;
 	public Transform player;
+	public GameObject explosion;
 
 	private float randForce;
 	private int rotation;
@@ -22,6 +23,7 @@ public class AsteroidScript : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
+		rb.AddTorque (dirVec * Random.Range (5, 25));
 		if (Mathf.Abs (transform.position.x) > distance || Mathf.Abs (transform.position.y) > distance || Mathf.Abs (transform.position.z) > distance) 
 		{
 			Vector3 rand = randVectorRadius (-50,50);
@@ -29,6 +31,18 @@ public class AsteroidScript : MonoBehaviour {
 			transform.position = Random.onUnitSphere * 100;
 			rb.AddForce (((Vector3.zero-transform.position+rand)) * 10.0f);
 		}
+	}
+
+	void OnCollisionEnter(Collision c)
+	{
+		if (c.gameObject.CompareTag ("Missle"))
+			Explode ();
+	}
+
+	void Explode()
+	{
+		Instantiate (explosion, transform.position, Quaternion.identity);
+		Destroy (gameObject);
 	}
 
 	public void Attack()
