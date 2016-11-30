@@ -1,16 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public static class AsteroidCounter
-{
-	public static int counter;
-
-	public static void setCounter(int num)
-	{
-		counter = num;
-	}
-}
-
 public class CamerController : MonoBehaviour {
 	public float speedH = 2.0f;
 	public float speedV = 2.0f;
@@ -71,7 +61,6 @@ public class CamerController : MonoBehaviour {
 
 		if (Input.GetKey (KeyCode.Escape))
 		{
-			Debug.Log ("Quit!");
 			Application.Quit ();
 		}
 	}
@@ -88,11 +77,9 @@ public class CamerController : MonoBehaviour {
 
 	public void Fire()
 	{
-		audioSource.PlayOneShot (clips [2]);
 		GameObject foo = (GameObject)Instantiate (missle, transform.forward+transform.position, Quaternion.identity);
 		Rigidbody rb = foo.GetComponent<Rigidbody> ();
 		rb.AddForce (transform.forward * missleForce);
-		//foo.transform.rotation = Quaternion.LookRotation (rb.velocity);
 	}
 
 	public IEnumerator notifyCrash()
@@ -104,12 +91,6 @@ public class CamerController : MonoBehaviour {
 			panel.SetActive (false);
 		}
 
-	}
-
-	//AUDIO FUNCTIONS!!!!!
-	public void playExplosion()
-	{
-		audioSource.PlayOneShot (clips [1]);
 	}
 
 	void playThrust()

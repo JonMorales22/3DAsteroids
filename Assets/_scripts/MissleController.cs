@@ -9,23 +9,11 @@ public class MissleController : MonoBehaviour {
 		Destroy (gameObject, 5.0f);
 		script = GameObject.FindWithTag ("Player").GetComponent<CamerController>();
 		rb = GetComponent<Rigidbody> ();
-
 	}
 
 	void Update()
 	{
 		transform.rotation = Quaternion.LookRotation(rb.velocity);
-	}
-	
-	void OnCollisionEnter(Collision c)
-	{
-		if (c.gameObject.CompareTag ("Asteroid")) {
-			AsteroidCounter.counter--;
-			//Debug.Log (AsteroidCounter.counter);
-			script.playExplosion ();
-			Destroy (c.gameObject);
-			Destroy(gameObject);
-		}
 	}
 		
 }
