@@ -68,6 +68,12 @@ public class CamerController : MonoBehaviour {
 			rb.AddForce (transform.forward * thrust * -1);
 			playThrust ();
 		}
+
+		if (Input.GetKey (KeyCode.Escape))
+		{
+			Debug.Log ("Quit!");
+			Application.Quit ();
+		}
 	}
 
 	void OnCollisionExit(Collision c)

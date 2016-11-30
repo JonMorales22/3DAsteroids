@@ -3,6 +3,7 @@ using System.Collections;
 
 public class AttackScript : MonoBehaviour {
 	public AsteroidScript[] asteroids;
+	public float time;
 	// Use this for initialization
 	void Start () {
 		asteroids = GetComponentsInChildren<AsteroidScript> ();
@@ -14,7 +15,7 @@ public class AttackScript : MonoBehaviour {
 		if (AsteroidCounter.counter == 0)
 			yield break;
 		
-		yield return new WaitForSeconds (10.0f);
+		yield return new WaitForSeconds (time);
 		asteroids = GetComponentsInChildren<AsteroidScript> ();
 		int num = Random.Range (0, asteroids.Length);
 		//int num = 0;

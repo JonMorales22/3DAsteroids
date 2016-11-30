@@ -21,7 +21,7 @@ public class MissleController : MonoBehaviour {
 	{
 		if (c.gameObject.CompareTag ("Asteroid")) {
 			AsteroidCounter.counter--;
-			Debug.Log (AsteroidCounter.counter);
+			//Debug.Log (AsteroidCounter.counter);
 			script.playExplosion ();
 			Destroy (c.gameObject);
 			Destroy(gameObject);

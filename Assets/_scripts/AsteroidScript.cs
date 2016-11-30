@@ -10,6 +10,7 @@ public class AsteroidScript : MonoBehaviour {
 	private int rotation;
 	private Vector3 dirVec;
 	private Rigidbody rb;
+	private bool isChanging = false;
 	// Use this for initialization
 	void Start () {
 		randForce = Random.Range (5, 50);
@@ -19,24 +20,20 @@ public class AsteroidScript : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void FixedUpdate () {
-		rb.AddTorque (dirVec * randForce);
+	void FixedUpdate ()
+	{
 		if (Mathf.Abs (transform.position.x) > distance || Mathf.Abs (transform.position.y) > distance || Mathf.Abs (transform.position.z) > distance) 
 		{
-			//transform.position = (Random.onUnitSphere)*100;
-
-			//Debug.Log ("Called");
+			Vector3 rand = randVectorRadius (-50,50);
 			killForces ();
-			//rb.velocity=Vector3.zero;
-			rb.AddForce ((Vector3.zero-dirVec) * force);
+			transform.position = Random.onUnitSphere * 100;
+			rb.AddForce (((Vector3.zero-transform.position+rand)) * 10.0f);
 		}
-			//transform.RotateAround(Vector3.zero, dirVec, rotation * Time.deltaTime);
-		//Vector3.up
 	}
 
 	public void Attack()
 	{
-		Vector3 rand = randVectorRadius ();
+		Vector3 rand = randVectorRadius (-3,4);
 		//killForces ();
 		rb.AddForce (((player.transform.position - transform.position) + rand) * 100.0f);
 	}
@@ -47,11 +44,11 @@ public class AsteroidScript : MonoBehaviour {
 		rb.angularVelocity = Vector3.zero;
 	}
 
-	Vector3 randVectorRadius()
+	Vector3 randVectorRadius(int num, int num2)
 	{
-		int x = Random.Range (-3, 4);
-		int y = Random.Range (-3, 4);
-		int z = Random.Range (-3, 4);
+		int x = Random.Range (num, num2);
+		int y = Random.Range (num, num2);
+		int z = Random.Range (num, num2);
 		Vector3 vec = new Vector3 (x,y,z);
 		return vec;
 	}
