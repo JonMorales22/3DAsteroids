@@ -24,14 +24,15 @@ public class AsteroidScript : MonoBehaviour {
 
 		//gets a random vector and then sends the asteroid in a random direction
 		dirVec = randVector ();
-		rb.AddForce (dirVec * force);
+		//rb.AddForce (dirVec * force);
+		rb.AddTorque (dirVec * force);
 	}
 
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
 		//adds a spin to the asteroid
-		rb.AddTorque (dirVec * randForce);
+		//rb.AddTorque (dirVec * randForce);
 
 		//if the asteroid is "out of bounds", place it back in bounds and send it a random point in a sphere around the origin
 		if (Mathf.Abs (transform.position.x) > distance || Mathf.Abs (transform.position.y) > distance || Mathf.Abs (transform.position.z) > distance) 
