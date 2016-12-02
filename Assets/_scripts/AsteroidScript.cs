@@ -13,18 +13,19 @@ public class AsteroidScript : MonoBehaviour {
 	private Vector3 dirVec;
 	private Rigidbody rb;
 	private bool isChanging = false;
-
+	private AudioSource audiosource;
 
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody> ();
 
 		//gets a random float to apply torque force to asteroid
-		randForce = Random.Range (5, 50);
+		//randForce = Random.Range (5, 10);
 
 		//gets a random vector and then sends the asteroid in a random direction
+		//audiosource=GetComponent<AudioSource>();
 		dirVec = randVector ();
-		//rb.AddForce (dirVec * force);
+		rb.AddForce (dirVec * force);
 		rb.AddTorque (dirVec * force);
 	}
 
@@ -32,7 +33,7 @@ public class AsteroidScript : MonoBehaviour {
 	void FixedUpdate ()
 	{
 		//adds a spin to the asteroid
-		//rb.AddTorque (dirVec * randForce);
+		rb.AddTorque (dirVec * 0.5f);
 
 		//if the asteroid is "out of bounds", place it back in bounds and send it a random point in a sphere around the origin
 		if (Mathf.Abs (transform.position.x) > distance || Mathf.Abs (transform.position.y) > distance || Mathf.Abs (transform.position.z) > distance) 
@@ -40,7 +41,8 @@ public class AsteroidScript : MonoBehaviour {
 			Vector3 rand = randVectorRadius (-50,50);
 			killForces ();
 			transform.position = Random.onUnitSphere * 100;
-			rb.AddForce (((Vector3.zero-transform.position+rand)) * 10.0f);
+			//rb.AddForce (((Vector3.zero-transform.position+rand)) * 10.0f);
+			rb.AddForce (((player.transform.position - transform.position) + rand) * 10.0f);
 		}
 	}
 
@@ -51,6 +53,11 @@ public class AsteroidScript : MonoBehaviour {
 		{
 			Explode ();
 			Destroy (c.gameObject);
+		}
+		if (c.gameObject.CompareTag ("Player"))
+		{
+			audiosource = GetComponent<AudioSource> ();
+			audiosource.Play ();
 		}
 	}
 
@@ -68,7 +75,7 @@ public class AsteroidScript : MonoBehaviour {
 	{
 		killForces ();
 		Vector3 rand = randVectorRadius (-3,4);
-		rb.AddForce (((player.transform.position - transform.position) + rand) * 100.0f);
+		rb.AddForce (((player.transform.position - transform.position) + rand) * 10.0f);
 	}
 
 	//neutralizes the current forces acting on the rigidbody

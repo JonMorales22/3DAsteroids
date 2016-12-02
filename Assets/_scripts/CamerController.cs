@@ -70,7 +70,7 @@ public class CamerController : MonoBehaviour {
 		if (c.gameObject.CompareTag ("Asteroid")) 
 		{
 			StartCoroutine ("notifyCrash");
-			audioSource.PlayOneShot (clips [0]);
+			//audioSource.PlayOneShot (clips [0]);
 		}
 
 	}
