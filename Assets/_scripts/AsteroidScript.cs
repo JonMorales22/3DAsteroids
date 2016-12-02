@@ -54,6 +54,11 @@ public class AsteroidScript : MonoBehaviour {
 			Explode ();
 			Destroy (c.gameObject);
 		}
+
+	}
+
+	void OnCollisionExit(Collision c)
+	{
 		if (c.gameObject.CompareTag ("Player"))
 		{
 			audiosource = GetComponent<AudioSource> ();

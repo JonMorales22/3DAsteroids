@@ -42,7 +42,7 @@ public class AttackScript : MonoBehaviour {
 		{
 			asteroids [num].Attack ();
 		}
-		Debug.Log ("Asteroid number " + num + " is attacking!!");
+		//Debug.Log ("Asteroid number " + num + " is attacking!!");
 		StartCoroutine ("AttackPlayer");
 	}
 }
