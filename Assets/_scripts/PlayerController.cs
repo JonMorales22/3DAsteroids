@@ -73,7 +73,6 @@ public class PlayerController : MonoBehaviour {
 
 		//FOR DEBUG
 		if (Input.GetKeyDown (KeyCode.Space)) {
-			shake = 1;
 			StartCoroutine ("CameraShake");
 		
 		}
@@ -85,7 +84,6 @@ public class PlayerController : MonoBehaviour {
 		{
 			if (!isCrashing) {
 				isCrashing = true;
-				shake = 1;
 				StartCoroutine ("CameraShake");
 				StartCoroutine ("notifyCrash");
 			}
@@ -93,12 +91,18 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
+	public void StartCameraShake()
+	{
+		StartCoroutine("CameraShake");
+	}
+
 	IEnumerator CameraShake()
 	{
 		Vector3 initialPos = transform.position;
+		shake = 1;
 		while (shake > 0.0f)
 		{
-			Debug.Log (Mathf.PerlinNoise (shakeRange, 0));
+			//Debug.Log (Mathf.PerlinNoise (shakeRange, 0));
 			transform.position = initialPos+Random.insideUnitSphere*shakeAmount;
 			shake -= Time.deltaTime*decreaseFactor;
 			yield return new WaitForSeconds(.01f);

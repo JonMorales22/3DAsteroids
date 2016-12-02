@@ -5,20 +5,20 @@ public class AsteroidScript : MonoBehaviour {
 
 	public float force=750.0f;
 	public float distance;
-	public Transform player;
+
 	public GameObject explosion;
 
 	private float randForce;
 	private int rotation;
 	private Vector3 dirVec;
 	private Rigidbody rb;
-	private bool isChanging = false;
 	private AudioSource audiosource;
+	private Transform player;
 
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody> ();
-
+		player = GameObject.FindWithTag ("Player").GetComponent<Transform>();
 		//gets a random float to apply torque force to asteroid
 		//randForce = Random.Range (5, 10);
 
