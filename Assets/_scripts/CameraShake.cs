@@ -3,23 +3,27 @@ using System.Collections;
 
 public class CameraShake : MonoBehaviour {
 
-	//FOR CAMERA STUFF
-
-	//public float shakeAmount;
-	//public float shakeRange;
 	public float defaultShake;
 
 	private float decrement=2;
 	private float shake;
 
-	public void StartShake(float shakeAmount)
-	{
-		StartCoroutine("Shake",shakeAmount);
-	}
+	//shakes camera using the defualt shake
 	public void StartShake()
 	{
 		StartCoroutine("Shake",defaultShake);
 	}
+
+	//overload, shakes camera using an amount different than defualt shake
+	public void StartShake(float shakeAmount)
+	{
+		StartCoroutine("Shake",shakeAmount);
+	}
+		
+	/* Shakes camera, takes in float shakeAmount as a parameter which is used to deteremine how much to shake the camera
+	 * First we get the inital position of the camera then we offset its position by using a random value in a unit sphere
+	 * Lastly we put the camera back in its inital position
+	*/
 	IEnumerator Shake(float shakeAmount)
 	{
 		Vector3 initialPos = transform.position;

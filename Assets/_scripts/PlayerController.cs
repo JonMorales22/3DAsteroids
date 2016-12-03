@@ -23,13 +23,6 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody rb;
 	private AudioSource audioSource;
 
-
-	//FOR CAMERA STUFF
-	public float decreaseFactor;
-	public float shakeAmount;
-	public float shakeRange;
-
-	private float shake;
 	// Use this for initialization
 	void Start () {
 		//panel = GameObject.FindWithTag ("CrashPanel");
@@ -89,25 +82,6 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-	}
-
-	public void StartCameraShake()
-	{
-		StartCoroutine("CameraShake");
-	}
-
-	IEnumerator CameraShake(float shakeAmount)
-	{
-		Vector3 initialPos = transform.position;
-		shake = 1;
-		while (shake > 0.0f)
-		{
-			//Debug.Log (Mathf.PerlinNoise (shakeRange, 0));
-			transform.position = initialPos+Random.insideUnitSphere*shakeAmount;
-			shake -= Time.deltaTime*decreaseFactor;
-			yield return new WaitForSeconds(.01f);
-		}
-		transform.position = initialPos;
 	}
 
 	public void Fire()
