@@ -26,15 +26,15 @@ public class CameraShake : MonoBehaviour {
 	*/
 	IEnumerator Shake(float shakeAmount)
 	{
-		Vector3 initialPos = transform.position;
+		Vector3 initialPos = transform.localPosition;
 		shake = 1;
 		while (shake > 0.0f)
 		{
 			//Debug.Log (Mathf.PerlinNoise (shakeRange, 0));
-			transform.position = initialPos+Random.insideUnitSphere*shakeAmount;
+			transform.localPosition = initialPos+Random.insideUnitSphere*shakeAmount;
 			shake -= Time.deltaTime*decrement;
 			yield return new WaitForSeconds(.01f);
 		}
-		transform.position = initialPos;
+		transform.localPosition = initialPos;
 	}
 }

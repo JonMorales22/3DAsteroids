@@ -19,6 +19,7 @@ public class AsteroidScript : MonoBehaviour {
 	void Start () {
 		rb = GetComponent<Rigidbody> ();
 		player = GameObject.FindWithTag ("Player").GetComponent<Transform>();
+		audiosource = GetComponent<AudioSource> ();
 		//gets a random float to apply torque force to asteroid
 		//randForce = Random.Range (5, 10);
 
@@ -26,14 +27,14 @@ public class AsteroidScript : MonoBehaviour {
 		//audiosource=GetComponent<AudioSource>();
 		dirVec = randVector ();
 		rb.AddForce (dirVec * force);
-		rb.AddTorque (dirVec * force);
+		//rb.AddTorque (dirVec * force);
 	}
 
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
 		//adds a spin to the asteroid
-		rb.AddTorque (dirVec * 0.5f);
+		rb.AddTorque (dirVec * 0.25f);
 
 		//if the asteroid is "out of bounds", place it back in bounds and send it a random point in a sphere around the origin
 		if (Mathf.Abs (transform.position.x) > distance || Mathf.Abs (transform.position.y) > distance || Mathf.Abs (transform.position.z) > distance) 
@@ -51,19 +52,20 @@ public class AsteroidScript : MonoBehaviour {
 		//First calls explode, then destroys the missle prefab
 		if (c.gameObject.CompareTag ("Missle"))
 		{
+			PlayerStats.Instance.IncrementScore (100);
 			Explode ();
 			Destroy (c.gameObject);
+		}
+		if (c.gameObject.CompareTag ("Player"))
+		{
+			playSound ();
 		}
 
 	}
 
 	void OnCollisionExit(Collision c)
 	{
-		if (c.gameObject.CompareTag ("Player"))
-		{
-			audiosource = GetComponent<AudioSource> ();
-			audiosource.Play ();
-		}
+
 	}
 
 	//Instantiantes the Explosion prefab at the asteroids current position
@@ -128,5 +130,12 @@ public class AsteroidScript : MonoBehaviour {
 		}
 		return vec;
 	}
+
+	void playSound()
+	{
+		if (!audiosource.isPlaying)
+			audiosource.Play();
+	}
+
 
 }

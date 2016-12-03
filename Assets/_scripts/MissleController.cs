@@ -7,12 +7,11 @@ public class MissleController : MonoBehaviour {
 
 	private Rigidbody rb;
 	private Transform playerT;
-	private GameObject player;
+
 	// Use this for initialization
 	void Start () {
 		Destroy (gameObject, 5.0f);
 		playerT= GameObject.FindWithTag ("Player").GetComponent<Transform>();
-		player = GameObject.FindWithTag ("Player");
 		rb = GetComponent<Rigidbody> ();
 	}
 
