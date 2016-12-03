@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour {
 		{
 			if (!isCrashing) {
 				isCrashing = true;
-				StartCoroutine ("CameraShake");
+				Camera.main.GetComponent<CameraShake> ().StartShake ();
 				StartCoroutine ("notifyCrash");
 			}
 		}
@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour {
 		StartCoroutine("CameraShake");
 	}
 
-	IEnumerator CameraShake()
+	IEnumerator CameraShake(float shakeAmount)
 	{
 		Vector3 initialPos = transform.position;
 		shake = 1;

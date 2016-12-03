@@ -24,20 +24,24 @@ public class MissleController : MonoBehaviour {
 	void OnDestroy()
 	{
 		Explode ();
-
 	}
+
 	void Explode()
 	{
 		GameObject gb = (GameObject)Instantiate (explosion, transform.position, Quaternion.identity);
 		gb.transform.LookAt (playerT);
 		float distance= getDistance ();
-		Debug.Log (distance);
-		if(distance<5.0f)
-		{
-			PlayerController ps;
-			ps = player.GetComponent<PlayerController>();
-			ps.StartCameraShake ();
-		}
+
+		if (distance < 6.0f) {
+			/*
+			 * y=(sqrt(25-x^2))5 ---> when we are at x=5, y=0 so the camera won't shake
+			 * 					 ---> when we are at x=1, y=4.8 so the camera will shake at nearly what I want the max to be.
+			*/
+			float shakeAmount = (Mathf.Sqrt (36 - (distance*distance)))/6;
+			Debug.Log ("Distance: " + distance);
+			Debug.Log ("Shake Amount: " + shakeAmount);
+			Camera.main.GetComponent<CameraShake> ().StartShake (shakeAmount);
+				}
 		Destroy (gameObject);
 	}
 
