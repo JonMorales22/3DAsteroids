@@ -85,9 +85,10 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (c.gameObject.CompareTag ("Asteroid")||c.gameObject.CompareTag("Enemy")) 
 		{
-			//if (!ForceFieldScript.Instance.isImmune) {
-				Camera.main.GetComponent<CameraShake> ().StartShake ();
-				StartCoroutine ("notifyCrash");
+			//if(!ForceFieldScript.Instance.isImmune)
+			//{
+				//Camera.main.GetComponent<CameraShake> ().StartShake ();
+				//StartCoroutine ("notifyCrash");
 			//}
 		}
 	}
@@ -98,7 +99,10 @@ public class PlayerController : MonoBehaviour {
 		Rigidbody missleRB = foo.GetComponent<Rigidbody> ();
 		missleRB.AddForce (transform.forward * missleForce);
 	}
-
+	public void StartNotifyCrash()
+	{
+		StartCoroutine("notifyCrash");
+	}
 	public IEnumerator notifyCrash()
 	{
 		yield return new WaitForEndOfFrame ();

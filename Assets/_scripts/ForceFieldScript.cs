@@ -55,7 +55,8 @@ public class ForceFieldScript : MonoBehaviour {
 	{
 		if (!isImmune)
 		{
-
+			Camera.main.GetComponent<CameraShake> ().StartShake ();
+			GameObject.FindWithTag ("Player").GetComponent<PlayerController> ().StartNotifyCrash ();
 			isImmune = true;
 			StopRecharge ();
 			StartCoroutine("ApplyImmunity");
