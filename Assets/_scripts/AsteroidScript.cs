@@ -4,19 +4,25 @@ using System.Collections;
 public class AsteroidScript : MonoBehaviour {
 
 	public float force=750.0f;
+	public float torqueForce=250;
 	public float distance;
 	public float spawn1upChance = 10;
+	public int value =100;
 
 	public GameObject explosion;
 	public GameObject OneUp;
 	public GameObject SmallAsteroid;
 
+
 	private float randForce;
 	private int rotation;
 	private Vector3 dirVec;
-	private Rigidbody rb;
-	private AudioSource audiosource;
-	private Transform player;
+	[HideInInspector]
+	public Rigidbody rb;
+	[HideInInspector]
+	public AudioSource audiosource;
+	[HideInInspector]
+	public Transform player;
 
 	// Use this for initialization
 	void Start () {
@@ -29,8 +35,8 @@ public class AsteroidScript : MonoBehaviour {
 		//gets a random vector and then sends the asteroid in a random direction
 		//audiosource=GetComponent<AudioSource>();
 		dirVec = randVector ();
-		rb.AddForce (dirVec * force);
-		rb.AddTorque (dirVec*250);
+		//rb.AddForce (dirVec * force);
+		//rb.AddTorque (dirVec*torqueForce);
 	}
 
 	// Update is called once per frame
@@ -56,8 +62,7 @@ public class AsteroidScript : MonoBehaviour {
 		//First calls explode, then destroys the missle prefab
 		if (c.gameObject.CompareTag ("Missle"))
 		{
-			PlayerStats.Instance.IncrementScore (100);
-			ForceFieldScript.Instance.Recharge (10);
+			PlayerStats.Instance.IncrementScore (value);
 			Explode ();
 			Destroy (c.gameObject);
 		}
@@ -71,11 +76,6 @@ public class AsteroidScript : MonoBehaviour {
 
 	}
 
-	void OnCollisionExit(Collision c)
-	{
-
-	}
-
 	//Instantiantes the Explosion prefab at the asteroids current position
 	//and decrements the amount of asteroids by 1, then destroys the GameObject
 	public virtual void Explode()
@@ -84,7 +84,7 @@ public class AsteroidScript : MonoBehaviour {
 		Instantiate (SmallAsteroid, transform.position+transform.right*-2, Quaternion.identity,transform.parent);
 		Instantiate (SmallAsteroid, transform.position+transform.right*2, Quaternion.identity,transform.parent);
 		Instantiate (explosion, transform.position, Quaternion.identity);
-		rb.AddExplosionForce (1000, transform.position, 100);
+		//rb.AddExplosionForce (1000, transform.position, 100);
 		if(Random.Range(0,100)<=spawn1upChance)
 			Instantiate (OneUp, transform.position, Quaternion.identity);
 		AsteroidCounter.decrememt (1);
@@ -101,14 +101,14 @@ public class AsteroidScript : MonoBehaviour {
 	}
 
 	//neutralizes the current forces acting on the rigidbody
-	void killForces()
+	public void killForces()
 	{
 		rb.velocity = Vector3.zero;
 		rb.angularVelocity = Vector3.zero;
 	}
 
 	//returns a random Vector in range specified by num & num2
-	Vector3 randVectorRadius(int num, int num2)
+	public Vector3 randVectorRadius(int num, int num2)
 	{
 		int x = Random.Range (num, num2);
 		int y = Random.Range (num, num2);
@@ -118,7 +118,7 @@ public class AsteroidScript : MonoBehaviour {
 	}
 
 	//returns a random unit vector
-	Vector3 randVector()
+	public Vector3 randVector()
 	{
 		int num = Random.Range (0, 6);
 		Vector3 vec;

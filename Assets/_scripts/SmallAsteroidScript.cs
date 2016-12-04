@@ -3,6 +3,7 @@ using System.Collections;
 
 public class SmallAsteroidScript : AsteroidScript {
 
+
 	public override void Explode()
 	{
 

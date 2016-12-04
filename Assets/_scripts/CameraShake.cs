@@ -4,6 +4,7 @@ using System.Collections;
 public class CameraShake : MonoBehaviour {
 
 	public float defaultShake;
+	public bool isShaking;
 
 	private float decrement=2;
 	private float shake;
@@ -11,13 +12,20 @@ public class CameraShake : MonoBehaviour {
 	//shakes camera using the defualt shake
 	public void StartShake()
 	{
-		StartCoroutine("Shake",defaultShake);
+		if (!isShaking) {
+			isShaking = true;
+			StartCoroutine("Shake",defaultShake);
+		}
+			
 	}
 
 	//overload, shakes camera using an amount different than defualt shake
 	public void StartShake(float shakeAmount)
-	{
-		StartCoroutine("Shake",shakeAmount);
+	{	if (!isShaking)
+		{
+			isShaking = true;
+			StartCoroutine ("Shake", shakeAmount);
+		}
 	}
 		
 	/* Shakes camera, takes in float shakeAmount as a parameter which is used to deteremine how much to shake the camera
@@ -36,5 +44,6 @@ public class CameraShake : MonoBehaviour {
 			yield return new WaitForSeconds(.01f);
 		}
 		transform.localPosition = initialPos;
+		isShaking = false;
 	}
 }
