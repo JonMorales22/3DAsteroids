@@ -13,27 +13,32 @@ public class PlayerController : MonoBehaviour {
 	public float max;
 
 	public GameObject missle;
-	public GameObject panel;
+	public GameObject[] panel;
 
 	public bool isDead=false;
+
+	public GameObject[] explosions;
 
 	private float yaw = 0.0f;
 	private float pitch = 0.0f;
 	private float roll = 0.0f;
 	private Rigidbody rb;
 	private AudioSource audioSource;
+	private PlayerStats stats;
 
+	private bool isExploding=false;
 	// Use this for initialization
 	void Start () {
 		//panel = GameObject.FindWithTag ("CrashPanel");
 		rb = GetComponent<Rigidbody> ();
+		stats = PlayerStats.Instance;
 		audioSource = GetComponent<AudioSource> ();
 	}
 
 	// Update is called once per frame
 	void Update ()
 	{
-		if (!isDead) {
+		if (!stats.isDead) {
 			yaw += speedH * Input.GetAxis ("Mouse X");
 			pitch -= speedV * Input.GetAxis ("Mouse Y");
 
@@ -63,8 +68,15 @@ public class PlayerController : MonoBehaviour {
 
 			//FOR DEBUG
 			if (Input.GetKeyDown (KeyCode.Space)) {
-				StartCoroutine ("CameraShake");
-		
+				//Camera.main.GetComponent<CameraShake> ().StartShake ();
+				isDead=true;
+				StartCoroutine("PlayerDie");
+			}
+		} else {
+			isDead = true;
+			if (!isExploding) {
+				isExploding = true;
+				StartCoroutine ("PlayerDie");
 			}
 		}
 	}
@@ -90,14 +102,48 @@ public class PlayerController : MonoBehaviour {
 
 	public IEnumerator notifyCrash()
 	{
-		if (!panel.activeSelf)
-		{
-			panel.SetActive (true);
-			yield return new WaitForSeconds (3.0f);
-			panel.SetActive (false);
+		yield return new WaitForEndOfFrame ();
+		if (!isDead) {
+			if (!panel [0].activeSelf) {
+				panel [0].SetActive (true);
+				yield return new WaitForSeconds (3.0f);
+				panel [0].SetActive (false);
+			}
 		}
 	}
 
+	public IEnumerator PlayerDie()
+	{
+		//int x, y;
+		Vector3 vec;
+		panel [0].SetActive (false);
+		Debug.Log ("Player is Dead");
+		panel [1].SetActive (true);
+		for (int i = 0; i < 4; i++)
+		{
+			switch (i)
+			{
+			case 1:
+				vec = new Vector3 (2, 0, 0);
+				break;
+			case 2:
+				vec = new Vector3 (-2, 0, 0);
+				break;
+			case 3:
+				vec = new Vector3 (0, 1, 0);
+				break;
+			default:
+				vec = new Vector3 (0, -1, 0);
+				break;
+			}
+			Instantiate (explosions [0], transform.position+vec, Quaternion.identity);
+			Debug.Log (transform.position + (Vector3.forward * 2) + vec);
+			Instantiate (explosions [1], transform.position + (transform.forward) +vec, Quaternion.identity);
+			yield return new WaitForSeconds(.25f);
+		}
+		Destroy (this);
+	}
+		
 	void playThrust()
 	{
 		if (!audioSource.isPlaying)

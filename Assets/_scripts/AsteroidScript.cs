@@ -6,6 +6,7 @@ public class AsteroidScript : MonoBehaviour {
 	public float force=750.0f;
 	public float distance;
 
+
 	public GameObject explosion;
 
 	private float randForce;
@@ -39,7 +40,7 @@ public class AsteroidScript : MonoBehaviour {
 		//if the asteroid is "out of bounds", place it back in bounds and send it a random point in a sphere around the origin
 		if (Mathf.Abs (transform.position.x) > distance || Mathf.Abs (transform.position.y) > distance || Mathf.Abs (transform.position.z) > distance) 
 		{
-			Vector3 rand = randVectorRadius (-50,50);
+			Vector3 rand = randVectorRadius (-5,5);
 			killForces ();
 			transform.position = Random.onUnitSphere * 100;
 			//rb.AddForce (((Vector3.zero-transform.position+rand)) * 10.0f);
@@ -53,12 +54,16 @@ public class AsteroidScript : MonoBehaviour {
 		if (c.gameObject.CompareTag ("Missle"))
 		{
 			PlayerStats.Instance.IncrementScore (100);
+			ForceFieldScript.Instance.Recharge (10);
 			Explode ();
 			Destroy (c.gameObject);
 		}
 		if (c.gameObject.CompareTag ("Player"))
 		{
-			playSound ();
+			//Rigidbody playerRB = c.gameObject.GetComponent<Rigidbody>();
+			//playerRB.AddForce (-1*player.position*50);
+			if(!c.gameObject.GetComponent<PlayerController>().isDead)
+				playSound ();
 		}
 
 	}

@@ -21,6 +21,7 @@ public class DisplayStats : MonoBehaviour {
 	void Update () {
 		textArray [0].text = forcefield.getHealth().ToString();
 		textArray [1].text = playerstats.getScore().ToString();
+		textArray [2].text = playerstats.getLives ().ToString ();
 		/*
 		textArray [0].text = camera.transform.rotation.eulerAngles.x.ToString(); <----- USED FOR DISPLAY PLAYER POSITION
 		textArray [1].text = camera.transform.rotation.eulerAngles.y.ToString();

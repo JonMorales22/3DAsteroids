@@ -1,17 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerStats : MonoBehaviour {
 
 	public bool isImmune;
-	public bool isRecharging;
+	public bool usesForceField=true;
+	public bool isDead=false;
 
 	private int score;
-
+	private int lives;
 	private int health;
 	private int startHealth = 10;
 
 	private float immunityTime = 3.0f;
+
+	private ForceFieldScript forcefield;
 	//private float waitTime = 5.0f;
 
 	private static PlayerStats _instance;
@@ -28,23 +32,20 @@ public class PlayerStats : MonoBehaviour {
 
 	public void TakeDamage(int damage)
 	{
-		if (!ForceFieldScript.Instance.isDown)
-		{
-			ForceFieldScript.Instance.TakeDamage (damage);
+		if (usesForceField&&forcefield.isDown == false && forcefield.isImmune == false)
+			forcefield.TakeDamage (damage);
+		else if (usesForceField&&forcefield.isImmune)
 			return;
-		}
-		if (!isImmune)
-		{
-			isImmune = true;
-			//ForceFieldScript.Instance.StopRecharge ();
-			StartCoroutine("ApplyImmunity");
-			health -= damage;
-			Debug.Log ("Health:" + health);
-			if (health <= 0)
+		else if (!this.isImmune)
 			{
-				PlayerDie ();
+				this.isImmune = true;
+				StartCoroutine("ApplyImmunity");
+				this.health -= damage;
+				if (this.health <= 0)
+				{
+					this.PlayerDie ();
+				}
 			}
-		}
 	}
 
 	public void Heal(int amount)
@@ -65,22 +66,50 @@ public class PlayerStats : MonoBehaviour {
 		return score;
 	}
 
+	public int getLives()
+	{
+		return lives;
+	}
+
+
 	IEnumerator ApplyImmunity()
 	{
 		yield return new WaitForSeconds (immunityTime);
 		isImmune = false;
 	}
 
+	IEnumerator NewScene ()
+	{
+		yield return new WaitForSeconds(4.0f);
+		if (lives > 0)
+		{
+			isDead = false;
+			health = startHealth;
+			score = 0;
+			forcefield.Reset ();
+			SceneManager.LoadScene (0);
+		}
+		else
+			SceneManager.LoadScene ("GameOver");
+
+	}
 	// Use this for initialization
 	void Awake () {
 		score = 0;
+		lives = 3;
 		health = startHealth;
+		DontDestroyOnLoad (gameObject);
+		if (usesForceField)
+			forcefield = ForceFieldScript.Instance;
 	}
 
 	void PlayerDie()
 	{
-		ForceFieldScript.Instance.StopRecharge ();
-		Debug.Log ("Player is Dead!!");
+		//Destroy (forcefield.gameObject);
+		isDead = true;
+		lives--;
+		StartCoroutine ("NewScene");
+		//Debug.Log ("Player is Dead!!");
 
 	}
 }

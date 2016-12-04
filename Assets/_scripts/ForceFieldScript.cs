@@ -11,8 +11,6 @@ public class ForceFieldScript : MonoBehaviour {
 	private int maxHealth=20;
 
 	private float immunityTime = 3.0f;
-	private int wait=3;
-	private int rechargeWait=1;
 
 	private static ForceFieldScript _instance;
 
@@ -25,12 +23,15 @@ public class ForceFieldScript : MonoBehaviour {
 	void Awake()
 	{
 		health = maxHealth;
+		DontDestroyOnLoad (gameObject);
 	}
 	void Update()
 	{
-		if (health < 0)
-			health = 0;
-		if (health > 0)
+//		if (health <= 0)
+//		{
+//			ShieldDown ();
+//		}
+			if (health > 0)
 		{
 			isDown = false;
 		}
@@ -67,28 +68,41 @@ public class ForceFieldScript : MonoBehaviour {
 		}
 	}
 
+	public void Recharge(int num)
+	{
+		health += num;
+		if (health > maxHealth)
+			health = maxHealth;
+	}
+	public void Reset()
+	{
+		health = maxHealth;
+	}
+
 	IEnumerator ApplyImmunity()
 	{
 		yield return new WaitForSeconds (immunityTime);
 		isImmune = false;
-		StartRecharge();
+		//StartRecharge();
 	}
-	IEnumerator Recharge()
-	{
-		yield return new WaitForSeconds (wait);
-		while (health < maxHealth) 
-		{
-			health += rechargeAmount;
-			yield return new WaitForSeconds (rechargeWait);
-		}
-		if (health > maxHealth)
-			health = maxHealth;
-	}
+
+
+//	IEnumerator Recharge()
+//	{
+//		yield return new WaitForSeconds (wait);
+//		while (health < maxHealth) 
+//		{
+//			health += rechargeAmount;
+//			yield return new WaitForSeconds (rechargeWait);
+//		}
+//		if (health > maxHealth)
+//			health = maxHealth;
+//	}
 
 	void ShieldDown()
 	{
 		health=0;
 		isDown = true;
-		Debug.Log ("Shield is Down!!");
+		//Debug.Log ("Shield is Down!!");
 	}
 }
