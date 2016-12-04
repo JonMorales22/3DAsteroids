@@ -83,14 +83,13 @@ public class PlayerController : MonoBehaviour {
 
 	void OnCollisionEnter(Collision c)
 	{
-		if (c.gameObject.CompareTag ("Asteroid")) 
+		if (c.gameObject.CompareTag ("Asteroid")||c.gameObject.CompareTag("Enemy")) 
 		{
 			if (!ForceFieldScript.Instance.isImmune) {
 				Camera.main.GetComponent<CameraShake> ().StartShake ();
 				StartCoroutine ("notifyCrash");
 			}
 		}
-
 	}
 
 	public void Fire()

@@ -10,6 +10,14 @@ public static class AsteroidCounter
 	{
 		counter = num;
 	}
+	public static void increment (int num)
+	{
+		counter += num;
+	}
+	public static void decrememt (int num)
+	{
+		counter -= num;
+	}
 }
 
 public class AttackScript : MonoBehaviour {
@@ -37,6 +45,7 @@ public class AttackScript : MonoBehaviour {
 		//Since the player can destroy asteroids at any time,
 		//we get the asteroids in children again to prevent using an asteroid that's been destroyed
 		asteroids = GetComponentsInChildren<AsteroidScript> ();
+		AsteroidCounter.setCounter (asteroids.Length);
 		int num = Random.Range (0, asteroids.Length);
 		if (asteroids.Length>0&&asteroids [num] != null) 
 		{

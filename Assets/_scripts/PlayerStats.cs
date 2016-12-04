@@ -56,6 +56,11 @@ public class PlayerStats : MonoBehaviour {
 			health = startHealth;
 	}
 
+	public void OneUp()
+	{
+		lives++;
+	}
+
 	public int getHealth()
 	{
 		return health;

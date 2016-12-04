@@ -5,9 +5,11 @@ public class AsteroidScript : MonoBehaviour {
 
 	public float force=750.0f;
 	public float distance;
-
+	public float spawn1upChance = 10;
 
 	public GameObject explosion;
+	public GameObject OneUp;
+	public GameObject SmallAsteroid;
 
 	private float randForce;
 	private int rotation;
@@ -28,14 +30,14 @@ public class AsteroidScript : MonoBehaviour {
 		//audiosource=GetComponent<AudioSource>();
 		dirVec = randVector ();
 		rb.AddForce (dirVec * force);
-		//rb.AddTorque (dirVec * force);
+		rb.AddTorque (dirVec*250);
 	}
 
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
 		//adds a spin to the asteroid
-		rb.AddTorque (dirVec * 0.25f);
+		//rb.AddTorque (dirVec * 0.25f);
 
 		//if the asteroid is "out of bounds", place it back in bounds and send it a random point in a sphere around the origin
 		if (Mathf.Abs (transform.position.x) > distance || Mathf.Abs (transform.position.y) > distance || Mathf.Abs (transform.position.z) > distance) 
@@ -45,6 +47,7 @@ public class AsteroidScript : MonoBehaviour {
 			transform.position = Random.onUnitSphere * 100;
 			//rb.AddForce (((Vector3.zero-transform.position+rand)) * 10.0f);
 			rb.AddForce (((player.transform.position - transform.position) + rand) * 10.0f);
+			rb.AddTorque (((player.transform.position - transform.position) + rand) * 2.0f);
 		}
 	}
 
@@ -75,10 +78,17 @@ public class AsteroidScript : MonoBehaviour {
 
 	//Instantiantes the Explosion prefab at the asteroids current position
 	//and decrements the amount of asteroids by 1, then destroys the GameObject
-	void Explode()
+	public virtual void Explode()
 	{
+
+		Instantiate (SmallAsteroid, transform.position+transform.right*-2, Quaternion.identity,transform.parent);
+		Instantiate (SmallAsteroid, transform.position+transform.right*2, Quaternion.identity,transform.parent);
 		Instantiate (explosion, transform.position, Quaternion.identity);
-		AsteroidCounter.counter--;
+		rb.AddExplosionForce (1000, transform.position, 100);
+		if(Random.Range(0,100)<=spawn1upChance)
+			Instantiate (OneUp, transform.position, Quaternion.identity);
+		AsteroidCounter.decrememt (1);
+		AsteroidCounter.increment (2);
 		Destroy (gameObject);
 	}
 		
