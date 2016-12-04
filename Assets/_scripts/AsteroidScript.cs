@@ -29,22 +29,11 @@ public class AsteroidScript : MonoBehaviour {
 		rb = GetComponent<Rigidbody> ();
 		player = GameObject.FindWithTag ("Player").GetComponent<Transform>();
 		audiosource = GetComponent<AudioSource> ();
-		//gets a random float to apply torque force to asteroid
-		//randForce = Random.Range (5, 10);
-
-		//gets a random vector and then sends the asteroid in a random direction
-		//audiosource=GetComponent<AudioSource>();
-		dirVec = randVector ();
-		//rb.AddForce (dirVec * force);
-		//rb.AddTorque (dirVec*torqueForce);
 	}
 
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
-		//adds a spin to the asteroid
-		//rb.AddTorque (dirVec * 0.25f);
-
 		//if the asteroid is "out of bounds", place it back in bounds and send it a random point in a sphere around the origin
 		if (Mathf.Abs (transform.position.x) > distance || Mathf.Abs (transform.position.y) > distance || Mathf.Abs (transform.position.z) > distance) 
 		{
@@ -52,8 +41,8 @@ public class AsteroidScript : MonoBehaviour {
 			killForces ();
 			transform.position = Random.onUnitSphere * 100;
 			//rb.AddForce (((Vector3.zero-transform.position+rand)) * 10.0f);
-			rb.AddForce (((player.transform.position - transform.position) + rand) * 10.0f);
-			rb.AddTorque (((player.transform.position - transform.position) + rand) * 2.0f);
+			rb.AddForce (((player.transform.position - transform.position) + rand) * force);
+			rb.AddTorque (((player.transform.position - transform.position) + rand) * torqueForce);
 		}
 	}
 

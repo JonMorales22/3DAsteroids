@@ -100,7 +100,7 @@ public class PlayerStats : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Awake () {
-		score = 0;
+		score = 100;
 		lives = 3;
 		health = startHealth;
 		DontDestroyOnLoad (gameObject);

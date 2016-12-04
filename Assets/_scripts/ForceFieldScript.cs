@@ -8,7 +8,7 @@ public class ForceFieldScript : MonoBehaviour {
 	public bool isDown;
 
 	private int health;
-	private int maxHealth=20;
+	private int maxHealth=100;
 
 	private float immunityTime = 3.0f;
 
@@ -27,15 +27,12 @@ public class ForceFieldScript : MonoBehaviour {
 	}
 	void Update()
 	{
-//		if (health <= 0)
-//		{
-//			ShieldDown ();
-//		}
-			if (health > 0)
+		if (health > 0)
 		{
 			isDown = false;
 		}
 	}
+
 	public void StartRecharge()
 	{
 		StartCoroutine ("Recharge");

@@ -41,7 +41,7 @@ public class AttackScript : MonoBehaviour {
 		//asteroids = GetComponentsInChildren<AsteroidScript> ();
 		AsteroidCounter.setCounter ((int)numAsteroids);
 		SpawnAsteroids ();
-		StartCoroutine("AttackPlayer");
+		//StartCoroutine("AttackPlayer");
 	}
 
 	void SpawnAsteroids()
