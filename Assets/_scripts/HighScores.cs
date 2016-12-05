@@ -75,8 +75,6 @@ public class HighScores : MonoBehaviour {
 		scoreArray [numPlayers] = PlayerStats.Instance.getScore ();
 		nameArray [numPlayers] = playerName;
 		sortArrays ();
-		//Debug.Log ("Got info");
-		//Debug.Log ("Print scores");
 	}
 
 	IEnumerator getInput2(int num)
@@ -87,8 +85,6 @@ public class HighScores : MonoBehaviour {
 		scoreArray [numPlayers-1] = PlayerStats.Instance.getScore ();
 		nameArray [numPlayers-1] = playerName;
 		sortArrays ();
-		//Debug.Log ("Got info");
-		//Debug.Log ("Print scores");
 	}
 		
 	int [] shiftScoreArray(int num) {
@@ -98,7 +94,7 @@ public class HighScores : MonoBehaviour {
 				newArray [i] = scoreArray [i];
 			} else if (i == numPlayers) {
 				newArray [i] = score;
-			} else { //i>numPlayers
+			} else {
 				newArray [i] = scoreArray [i-1];
 			}
 		}

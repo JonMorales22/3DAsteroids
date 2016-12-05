@@ -69,12 +69,15 @@ public class ForceFieldScript : MonoBehaviour {
 		}
 	}
 
+	//recharges the forcefield by specified amount
 	public void Recharge(int num)
 	{
 		health += num;
 		if (health > maxHealth)
 			health = maxHealth;
 	}
+
+	//resets the forcefield to max
 	public void Reset()
 	{
 		health = maxHealth;
@@ -84,7 +87,6 @@ public class ForceFieldScript : MonoBehaviour {
 	{
 		yield return new WaitForSeconds (immunityTime);
 		isImmune = false;
-		//StartRecharge();
 	}
 
 
@@ -104,6 +106,5 @@ public class ForceFieldScript : MonoBehaviour {
 	{
 		health=0;
 		isDown = true;
-		//Debug.Log ("Shield is Down!!");
 	}
 }

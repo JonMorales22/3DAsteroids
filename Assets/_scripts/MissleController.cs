@@ -15,6 +15,7 @@ public class MissleController : MonoBehaviour {
 		rb = GetComponent<Rigidbody> ();
 	}
 
+	//I don't remember why I put this here
 	void Update()
 	{
 		transform.rotation = Quaternion.LookRotation(rb.velocity);
@@ -25,6 +26,7 @@ public class MissleController : MonoBehaviour {
 		Explode ();
 	}
 
+	//Creates an explosion and then calculates the missle's distance from the player. It then shakes the camera based on the distance to the player 
 	void Explode()
 	{
 		GameObject gb = (GameObject)Instantiate (explosion, transform.position, Quaternion.identity);
@@ -33,17 +35,16 @@ public class MissleController : MonoBehaviour {
 
 		if (distance < 6.0f) {
 			/*
-			 * y=(sqrt(25-x^2))5 ---> when we are at x=5, y=0 so the camera won't shake
-			 * 					 ---> when we are at x=1, y=4.8 so the camera will shake at nearly what I want the max to be.
+			 * y=(sqrt(36-x^2))6 ---> when we are at x=6, y=0 so the camera won't shake
+			 * 					 ---> when we are at x=1, y=.98 so the camera will shake at nearly what I want the max to be.
 			*/
 			float shakeAmount = (Mathf.Sqrt (36 - (distance*distance)))/6;
-			Debug.Log ("Distance: " + distance);
-			Debug.Log ("Shake Amount: " + shakeAmount);
 			Camera.main.GetComponent<CameraShake> ().StartShake (shakeAmount);
-				}
+		}
 		Destroy (gameObject);
 	}
 
+	//get the distance from the player
 	float getDistance()
 	{
 		float xVal,yVal,zVal;

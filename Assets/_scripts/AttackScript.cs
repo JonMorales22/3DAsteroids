@@ -44,6 +44,7 @@ public class AttackScript : MonoBehaviour {
 		//StartCoroutine("AttackPlayer");
 	}
 
+	//Spawns asteroids randomly around the map and applies a random force to them
 	void SpawnAsteroids()
 	{
 		for (int i = 0; i < numAsteroids; i++)
@@ -51,10 +52,6 @@ public class AttackScript : MonoBehaviour {
 			GameObject child = (GameObject) Instantiate (asteroid, Random.insideUnitCircle * spawnRadius, Quaternion.identity, transform);
 			Rigidbody rb = child.gameObject.GetComponent<Rigidbody> ();
 			dirVec = randVector();
-			//Vector3 vec1 = Vector3.zero - child.transform.position;
-			//Vector3 vec2 = Vector3.zero - (child.transform.position-new Vector3(10,10,10));
-
-			//Vector3 norm = Vector3.Cross (vec1, vec2);
 			rb.AddForce (dirVec * force);
 			rb.AddTorque (dirVec*torqueForce);
 		}
@@ -81,6 +78,7 @@ public class AttackScript : MonoBehaviour {
 		StartCoroutine ("AttackPlayer");
 	}
 
+	//gets a random unit vector
 	public Vector3 randVector()
 	{
 		int num = Random.Range (0, 6);
