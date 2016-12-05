@@ -100,8 +100,8 @@ public class PlayerStats : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Awake () {
-		score = 100;
-		lives = 3;
+		score = 0;
+		lives = 1;
 		health = startHealth;
 		DontDestroyOnLoad (gameObject);
 		if (usesForceField)
