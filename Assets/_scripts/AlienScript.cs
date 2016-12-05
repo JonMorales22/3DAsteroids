@@ -16,13 +16,14 @@ public class AlienScript : MonoBehaviour {
 	void Start () {
 		audiosource = GetComponent<AudioSource> ();
 		playerTrans = GameObject.FindWithTag ("Player").GetComponent<Transform>();
-		StartCoroutine ("AttackPlayer");
+		//StartCoroutine ("AttackPlayer");
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		//transform.RotateAround (Vector3.zero, transform.up, Time.deltaTime*10);
 		transform.LookAt (playerTrans.position);
+		spawn.transform.LookAt (playerTrans.position);
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			Fire ();
 		}
@@ -57,7 +58,8 @@ public class AlienScript : MonoBehaviour {
 		Vector3 vec = randVectorRadius (-5, 5);
 		GameObject foo = (GameObject)Instantiate (laser, spawn.position, Quaternion.identity);
 		Rigidbody missleRB = foo.GetComponent<Rigidbody> ();
-		missleRB.AddForce (((playerTrans.position-transform.position)+vec)*speed);
+		//missleRB.AddForce (((playerTrans.position-transform.position)+vec)*speed);//<----------DISABLED FOR DEBUGGING
+		missleRB.AddForce (((playerTrans.position-transform.position))*speed);//<--------USED FOR TESTING
 	}
 
 	Vector3 randVectorRadius(int num, int num2)

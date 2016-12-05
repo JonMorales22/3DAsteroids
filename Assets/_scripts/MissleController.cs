@@ -23,6 +23,7 @@ public class MissleController : MonoBehaviour {
 
 	void OnDestroy()
 	{
+		Debug.Log ("Destroy");
 		Explode ();
 	}
 

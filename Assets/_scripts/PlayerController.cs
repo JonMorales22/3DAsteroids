@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
 	public bool isDead=false;
 
 	public AudioClip dieSound;
+	public AudioClip hitSound;
 
 	public GameObject missle;
 
@@ -152,7 +153,10 @@ public class PlayerController : MonoBehaviour {
 		Instantiate (explosions [0], transform.position, Quaternion.identity);
 		Destroy (this);
 	}
-		
+	public void playSound()
+	{
+		audioSource.PlayOneShot (hitSound);
+	}
 	void playThrust()
 	{
 		if (!audioSource.isPlaying)

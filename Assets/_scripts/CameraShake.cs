@@ -34,6 +34,7 @@ public class CameraShake : MonoBehaviour {
 	*/
 	IEnumerator Shake(float shakeAmount)
 	{
+		Debug.Log ("Camera shake!");
 		Vector3 initialPos = transform.localPosition;
 		shake = 1;
 		while (shake > 0.0f)
