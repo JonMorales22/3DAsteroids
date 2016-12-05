@@ -5,9 +5,11 @@ using UnityEngine.UI;
 public class HighScores : MonoBehaviour {
 
 	public InputScript input;
+	public GameObject panel;
+
 	public Text[] highScoresHolder;
 
-	private const int MAX_SCORES = 7;
+	private const int MAX_SCORES = 10;
 
 	private int numPlayers=0;
 	private int index;
@@ -18,7 +20,6 @@ public class HighScores : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		score = PlayerStats.Instance.getScore ();
-		highScoresHolder = GameObject.FindWithTag ("HighScores").GetComponentsInChildren<Text>();
 		retrieveInfo ();
 		if (score > 0) {
 			if (numPlayers < MAX_SCORES - 1) {
@@ -29,7 +30,9 @@ public class HighScores : MonoBehaviour {
 				StartCoroutine ("getInput2",index);
 				return;
 			}
-		} 
+		}
+		panel.SetActive (true);
+		highScoresHolder = GameObject.FindWithTag ("HighScores").GetComponentsInChildren<Text>();
 		input.Deactivate ();
 		printArray ();
 	}
@@ -68,6 +71,7 @@ public class HighScores : MonoBehaviour {
 	{
 		yield return new WaitUntil (() => input.flag==true);
 		playerName  = input.inputField.text;
+		input.Deactivate ();
 		scoreArray [numPlayers] = PlayerStats.Instance.getScore ();
 		nameArray [numPlayers] = playerName;
 		sortArrays ();
@@ -79,6 +83,7 @@ public class HighScores : MonoBehaviour {
 	{
 		yield return new WaitUntil (() => input.flag==true);
 		playerName  = input.inputField.text;
+		input.Deactivate ();
 		scoreArray [numPlayers-1] = PlayerStats.Instance.getScore ();
 		nameArray [numPlayers-1] = playerName;
 		sortArrays ();
@@ -147,10 +152,18 @@ public class HighScores : MonoBehaviour {
 	}
 	void printArray()
 	{
+		panel.SetActive (true);
+		highScoresHolder = GameObject.FindWithTag ("HighScores").GetComponentsInChildren<Text>();
 		for (int i = 0; i < MAX_SCORES; i++) {
 			if (nameArray [i] != null) {
 				highScoresHolder [i].text = "Name: " + nameArray [i] + "\tScore: " + scoreArray [i].ToString();
 			}
 		}
+	}
+	public void DeleteHighScores()
+	{
+		GameObject gb = GameObject.FindWithTag ("HighScores");
+		Destroy (gb);
+		PlayerPrefs.DeleteAll ();
 	}
 }

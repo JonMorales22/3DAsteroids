@@ -11,7 +11,9 @@ public class PlayerStats : MonoBehaviour {
 	private int score;
 	private int lives;
 	private int health;
+
 	private int startHealth = 10;
+	private int startLives = 1;
 
 	private float immunityTime = 3.0f;
 
@@ -19,6 +21,13 @@ public class PlayerStats : MonoBehaviour {
 	//private float waitTime = 5.0f;
 
 	private static PlayerStats _instance;
+
+	void Update()
+	{
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			TakeDamage (startHealth);
+		}
+	}
 
 	public static PlayerStats Instance
 	{
@@ -92,7 +101,7 @@ public class PlayerStats : MonoBehaviour {
 			health = startHealth;
 			score = 0;
 			forcefield.Reset ();
-			SceneManager.LoadScene (0);
+			SceneManager.LoadScene (1);
 		}
 		else
 			SceneManager.LoadScene ("GameOver");
@@ -100,8 +109,8 @@ public class PlayerStats : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Awake () {
-		score = 0;
-		lives = 1;
+		score = 100;
+		lives = startLives;
 		health = startHealth;
 		DontDestroyOnLoad (gameObject);
 		if (usesForceField)
@@ -116,5 +125,13 @@ public class PlayerStats : MonoBehaviour {
 		StartCoroutine ("NewScene");
 		//Debug.Log ("Player is Dead!!");
 
+	}
+	public void Reset()
+	{
+		isDead = false;
+		health = startHealth;
+		score = 0;
+		lives = startLives;
+		forcefield.Reset ();
 	}
 }

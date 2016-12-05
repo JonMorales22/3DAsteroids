@@ -24,14 +24,15 @@ public class ButtonScript : MonoBehaviour {
 //		mainMenuUI.SetActive (false);
 //	}
 //
+	public void PlayAgain()
+	{
+		PlayerStats.Instance.Reset ();
+		LoadScene (1);
+	}
+
 	public void LoadScene(int i)
 	{
 		SceneManager.LoadScene (i);
-	}
-
-	public void ClearScores()
-	{
-		PlayerPrefs.DeleteAll ();
 	}
 
 	public void ExitGame()

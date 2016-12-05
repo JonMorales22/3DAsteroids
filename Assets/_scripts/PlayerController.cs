@@ -11,13 +11,15 @@ public class PlayerController : MonoBehaviour {
 
 	public float min;
 	public float max;
-
-	public GameObject missle;
-	public GameObject[] panel;
-
 	public bool isDead=false;
 
+	public AudioClip dieSound;
+
+	public GameObject missle;
+
+	public GameObject[] panel;
 	public GameObject[] explosions;
+
 
 	private float yaw = 0.0f;
 	private float pitch = 0.0f;
@@ -66,12 +68,6 @@ public class PlayerController : MonoBehaviour {
 				Application.Quit ();
 			}
 
-			//FOR DEBUG
-			if (Input.GetKeyDown (KeyCode.Space)) {
-				//Camera.main.GetComponent<CameraShake> ().StartShake ();
-				isDead=true;
-				StartCoroutine("PlayerDie");
-			}
 		} else {
 			isDead = true;
 			if (!isExploding) {
@@ -139,11 +135,14 @@ public class PlayerController : MonoBehaviour {
 				vec = new Vector3 (0, -1, 0);
 				break;
 			}
-			Instantiate (explosions [0], transform.position+vec, Quaternion.identity);
+			//Instantiate (explosions [0], transform.position+vec, Quaternion.identity);
 			Debug.Log (transform.position + (Vector3.forward * 2) + vec);
 			Instantiate (explosions [1], transform.position + (transform.forward) +vec, Quaternion.identity);
+			//audioSource.clip (dieSound);
+			audioSource.PlayOneShot(dieSound);
 			yield return new WaitForSeconds(.25f);
 		}
+		Instantiate (explosions [0], transform.position, Quaternion.identity);
 		Destroy (this);
 	}
 		
