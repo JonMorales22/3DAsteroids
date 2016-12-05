@@ -18,27 +18,31 @@ public class PlayerStats : MonoBehaviour {
 	private float immunityTime = 3.0f;
 
 	private ForceFieldScript forcefield;
-	//private float waitTime = 5.0f;
 
+	//Singelton stuff
 	private static PlayerStats _instance;
-
-	void Update()
-	{
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			TakeDamage (startHealth);
-		}
-	}
 
 	public static PlayerStats Instance
 	{
 		get {return _instance ?? (_instance = new GameObject("PlayerStats").AddComponent<PlayerStats>()); }
 	}
-		
+
+	// Use this for initialization
+	void Awake () {
+		score = 0;
+		lives = startLives;
+		health = startHealth;
+		DontDestroyOnLoad (gameObject);
+		if (usesForceField)
+			forcefield = ForceFieldScript.Instance;
+	}
+
 	public void IncrementScore(int num)
 	{
 		score += num;
 	}
 
+	//very similar to the TakeDamage method in ForceFieldScript. Only difference is we check to see if forcefield is down or if its in an immunity state
 	public void TakeDamage(int damage)
 	{
 		if (usesForceField&&forcefield.isDown == false && forcefield.isImmune == false)
@@ -56,7 +60,7 @@ public class PlayerStats : MonoBehaviour {
 				}
 			}
 	}
-
+		
 	public void Heal(int amount)
 	{
 		if (health + amount < startHealth)
@@ -92,6 +96,8 @@ public class PlayerStats : MonoBehaviour {
 		isImmune = false;
 	}
 
+	//if player has more lives, we reset health and score, then reload the scene
+	//else we go to GameOver screen
 	IEnumerator NewScene ()
 	{
 		yield return new WaitForSeconds(4.0f);
@@ -107,25 +113,14 @@ public class PlayerStats : MonoBehaviour {
 			SceneManager.LoadScene ("GameOver");
 
 	}
-	// Use this for initialization
-	void Awake () {
-		score = 100;
-		lives = startLives;
-		health = startHealth;
-		DontDestroyOnLoad (gameObject);
-		if (usesForceField)
-			forcefield = ForceFieldScript.Instance;
-	}
 
 	void PlayerDie()
 	{
-		//Destroy (forcefield.gameObject);
 		isDead = true;
 		lives--;
 		StartCoroutine ("NewScene");
-		//Debug.Log ("Player is Dead!!");
-
 	}
+
 	public void Reset()
 	{
 		isDead = false;

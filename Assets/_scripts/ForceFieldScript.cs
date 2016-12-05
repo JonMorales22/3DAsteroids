@@ -8,23 +8,24 @@ public class ForceFieldScript : MonoBehaviour {
 	public bool isDown;
 
 	private int health;
-	private int maxHealth=0;
+	private int maxHealth=20;
 
 	private float immunityTime = 3.0f;
 
+	//Singleton stuff
 	private static ForceFieldScript _instance;
 
 	public static ForceFieldScript Instance
 	{
 		get {return _instance ?? (_instance = new GameObject("ForceField").AddComponent<ForceFieldScript>()); }
 	}
-
-	// Use this for initialization
+		
 	void Awake()
 	{
 		health = maxHealth;
 		DontDestroyOnLoad (gameObject);
 	}
+
 	void Update()
 	{
 		if (health > 0)
@@ -43,11 +44,13 @@ public class ForceFieldScript : MonoBehaviour {
 		StopCoroutine ("Recharge");
 	}
 
+	//get method
 	public int getHealth()
 	{
 		return health;
 	}
 	 
+	//Applies damage. After applying damage it calls a coroutine to give player immunity during which the player can't take damage.
 	public void TakeDamage(int damage)
 	{
 		if (!isImmune)
@@ -55,7 +58,7 @@ public class ForceFieldScript : MonoBehaviour {
 			Camera.main.GetComponent<CameraShake> ().StartShake ();
 			GameObject.FindWithTag ("Player").GetComponent<PlayerController> ().StartNotifyCrash ();
 			isImmune = true;
-			StopRecharge ();
+			//StopRecharge ();
 			StartCoroutine("ApplyImmunity");
 			health -= damage;
 			Debug.Log ("Health:" + health);
