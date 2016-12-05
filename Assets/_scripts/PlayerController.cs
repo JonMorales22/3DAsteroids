@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour {
 	public float speedR = 2.0f;
 
 	public float thrust = 100.0f;
-	public float missleForce = 500.0f;
+	public float missleForce = 1000.0f;
 
 	public float min;
 	public float max;

@@ -1,16 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LaserBeamScript : MonoBehaviour {
-	public float speed;
-	// Use this for initialization
-	void Start () {
-		Destroy (gameObject, 5);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		transform.position += transform.forward* -speed;
+public class LaserBeamScript : MissleController {
 
+	//private Rigidbody rb;
+	//private Transform playerT;
+
+	public override void Explode ()
+	{
+		Debug.Log ("Explode");
+	}
+
+	void OnCollisionEnter(Collision c)
+	{
+		if (c.gameObject.CompareTag ("Player")) {
+			this.Explode ();
+			Debug.Log ("Player hit!");
+		}
 	}
 }

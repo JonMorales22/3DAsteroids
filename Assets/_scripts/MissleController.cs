@@ -5,8 +5,8 @@ public class MissleController : MonoBehaviour {
 	
 	public GameObject explosion;
 
-	private Rigidbody rb;
-	private Transform playerT;
+	public Rigidbody rb;
+	public Transform playerT;
 
 	// Use this for initialization
 	void Start () {
@@ -27,7 +27,7 @@ public class MissleController : MonoBehaviour {
 	}
 
 	//Creates an explosion and then calculates the missle's distance from the player. It then shakes the camera based on the distance to the player 
-	void Explode()
+	public virtual void Explode()
 	{
 		GameObject gb = (GameObject)Instantiate (explosion, transform.position, Quaternion.identity);
 		gb.transform.LookAt (playerT);

@@ -3,21 +3,29 @@ using System.Collections;
 
 public class AlienScript : MonoBehaviour {
 	private Transform playerTrans;
+
 	private AudioSource audiosource;
 
+	public float speed = 500.0f;
 	public GameObject explosion;
 	public GameObject OneUp;
+	public GameObject laser;
 
+	public Transform spawn;
 	// Use this for initialization
 	void Start () {
 		audiosource = GetComponent<AudioSource> ();
 		playerTrans = GameObject.FindWithTag ("Player").GetComponent<Transform>();
+		StartCoroutine ("AttackPlayer");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		transform.RotateAround (Vector3.zero, transform.up, Time.deltaTime*10);
+		//transform.RotateAround (Vector3.zero, transform.up, Time.deltaTime*10);
 		transform.LookAt (playerTrans.position);
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			Fire ();
+		}
 	}
 
 	void OnCollisionEnter(Collision c)
@@ -38,7 +46,29 @@ public class AlienScript : MonoBehaviour {
 
 	}
 
+	IEnumerator AttackPlayer()
+	{
+		yield return new WaitForSeconds (5.0f);
+		Fire();
+		StartCoroutine ("AttackPlayer");
+	}
+	void Fire()
+	{
+		Vector3 vec = randVectorRadius (-5, 5);
+		GameObject foo = (GameObject)Instantiate (laser, spawn.position, Quaternion.identity);
+		Rigidbody missleRB = foo.GetComponent<Rigidbody> ();
+		missleRB.AddForce (((playerTrans.position-transform.position)+vec)*speed);
+	}
 
+	Vector3 randVectorRadius(int num, int num2)
+	{
+		int x = Random.Range (num, num2);
+		int y = Random.Range (num, num2);
+		int z = Random.Range (num, num2);
+		Vector3 vec = new Vector3 (x,y,z);
+		return vec;
+	}
+		
 	void Explode()
 	{
 		Instantiate (explosion, transform.position, Quaternion.identity);
