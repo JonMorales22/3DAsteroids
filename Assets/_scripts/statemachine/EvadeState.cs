@@ -13,6 +13,7 @@ public class EvadeState : IEnemyState {
 	public void UpdateState ()
 	{
 		Debug.Log ("In Evade mode");
+		enemy.EvadePlayer ();
 		ToAttackState ();
 		ToChaseState ();
 	}

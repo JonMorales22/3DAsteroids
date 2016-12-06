@@ -12,6 +12,7 @@ public class ChaseState : IEnemyState {
 	public void UpdateState ()
 	{
 		Debug.Log ("In Chase mode");
+		enemy.ChasePlayer ();
 		ToAttackState ();
 		ToEvadeState ();
 	}
@@ -19,7 +20,7 @@ public class ChaseState : IEnemyState {
 	public void ToAttackState()
 	{
 		//Not sure if second if statement is needed
-		if (enemy.distance <= 10.0f && enemy.distance>=5.0f) 
+		if (enemy.distance <= enemy.chaseDistance && enemy.distance>=enemy.evadeDistance) 
 			enemy.currentState = enemy.attackState;
 	}
 
@@ -30,7 +31,7 @@ public class ChaseState : IEnemyState {
 
 	public void ToEvadeState()
 	{
-		if (enemy.distance < 5.0f)
+		if (enemy.distance < enemy.evadeDistance)
 			enemy.currentState = enemy.evadeState;
 	}
 }

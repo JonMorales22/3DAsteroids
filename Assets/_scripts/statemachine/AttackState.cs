@@ -13,7 +13,7 @@ public class AttackState : IEnemyState {
 	public  void UpdateState ()
 	{
 		Debug.Log ("In Attack mode");
-		enemy.StartAttackPlayer ();
+		//enemy.StartAttackPlayer ();
 		ToChaseState ();
 		ToEvadeState ();
 	}
@@ -25,13 +25,19 @@ public class AttackState : IEnemyState {
 
 	public void ToChaseState()
 	{
-		if (enemy.distance > 10.0f)
+		if (enemy.distance > enemy.chaseDistance)
+		{
+			enemy.StopAttackPlayer();
 			enemy.currentState = enemy.chaseState;
+		}
 	}
 
 	public void ToEvadeState()
 	{
-		if (enemy.distance < 5.0f)
+		if (enemy.distance < enemy.evadeDistance)
+		{
+			enemy.StopAttackPlayer ();
 			enemy.currentState = enemy.evadeState;
+		}
 	}
 }
