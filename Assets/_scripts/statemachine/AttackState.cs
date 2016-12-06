@@ -13,7 +13,7 @@ public class AttackState : IEnemyState {
 	public  void UpdateState ()
 	{
 		Debug.Log ("In Attack mode");
-		//enemy.StartAttackPlayer ();
+		enemy.StartAttackPlayer ();
 		ToChaseState ();
 		ToEvadeState ();
 	}

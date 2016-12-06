@@ -4,6 +4,9 @@ using System.Collections;
 public class StatePatternEnemy : MonoBehaviour {
 
 	public GameObject laser;
+	public GameObject explosion;
+	public GameObject OneUp;
+
 	public Transform spawn;
 
 	public float evadeDistance;
@@ -12,7 +15,7 @@ public class StatePatternEnemy : MonoBehaviour {
 	public float laserSpeed;
 	public float maxSpeed;
 
-	//[HideInInspector] 
+	[HideInInspector] 
 	public float distance;
 	[HideInInspector] public Transform chaseTarget;
 	[HideInInspector] public IEnemyState currentState;
@@ -64,7 +67,25 @@ public class StatePatternEnemy : MonoBehaviour {
 
 		distance = Mathf.Sqrt (xVal + yVal + zVal);
 	}
-	//-----------FOR ATTACKING PLAYER!!!!--------------------------
+
+//================FOR MOVEMENT===============================================================//
+	public void ChasePlayer()
+	{	
+		if (rb.velocity.x < maxSpeed) {
+			rb.AddForce ((playerT.transform.position - transform.position) * maxSpeed);
+		} else if (rb.velocity.x > maxSpeed)
+			rb.velocity = ((playerT.transform.position - transform.position) * maxSpeed);
+	}
+	public void EvadePlayer()
+	{	
+		if (rb.velocity.x < maxSpeed) {
+			rb.AddForce ((playerT.transform.position - transform.position) * -maxSpeed);
+		} else if (rb.velocity.x > maxSpeed)
+			rb.velocity = ((playerT.transform.position - transform.position) * -maxSpeed);
+	}
+//===========================================================================================//
+
+//==========FOR ATTACKING PLAYER!!!!=========================================================//
 	public void StartAttackPlayer()
 	{
 		if (!isAttacking)
@@ -107,22 +128,24 @@ public class StatePatternEnemy : MonoBehaviour {
 		Vector3 vec = new Vector3 (x,y,z);
 		return vec;
 	}
-//-------------------------------------------------------------------
+//========================================================================================================//
+	void OnCollisionEnter(Collision c)
+	{
+		//First calls explode, then destroys the missle prefab
+		if (c.gameObject.CompareTag ("Missle"))
+		{
+			PlayerStats.Instance.IncrementScore (300);
+			ForceFieldScript.Instance.Reset();
+			Explode ();
+			Destroy (c.gameObject);
+		}
+	}
+	void Explode()
+	{
+		Instantiate (explosion, transform.position, Quaternion.identity);
+		Instantiate (OneUp, transform.position, Quaternion.identity);
+		Destroy (gameObject);
+	}
 
-//FOR CHASING PLAYER
-	public void ChasePlayer()
-	{	
-		if (rb.velocity.x < maxSpeed) {
-			rb.AddForce ((playerT.transform.position - transform.position) * maxSpeed);
-		} else if (rb.velocity.x > maxSpeed)
-			rb.velocity = ((playerT.transform.position - transform.position) * maxSpeed);
-	}
-	public void EvadePlayer()
-	{	
-		if (rb.velocity.x < maxSpeed) {
-			rb.AddForce ((playerT.transform.position - transform.position) * -maxSpeed);
-		} else if (rb.velocity.x > maxSpeed)
-			rb.velocity = ((playerT.transform.position - transform.position) * -maxSpeed);
-	}
 }
 

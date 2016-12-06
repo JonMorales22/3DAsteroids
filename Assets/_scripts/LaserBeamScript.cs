@@ -18,8 +18,8 @@ public class LaserBeamScript : MissleController {
 	void OnCollisionEnter(Collision c)
 	{
 		if (c.gameObject.CompareTag ("Player")) {
-			GameObject obj = (GameObject)Instantiate (hitPlayer, transform.position, Quaternion.identity);
-			Destroy (obj, 3);
+			GameObject obj = (GameObject)Instantiate (hitPlayer, playerT.position+(playerT.forward*2), Quaternion.identity);
+			//obj.transform.LookAt (playerT);
 			Destroy (gameObject);
 		}
 		if (c.gameObject.CompareTag ("Asteroid")) {
