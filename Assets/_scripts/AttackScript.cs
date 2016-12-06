@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 //static class used to hold number of asteroids
 public static class AsteroidCounter
@@ -17,6 +18,9 @@ public static class AsteroidCounter
 	public static void decrememt (int num)
 	{
 		counter -= num;
+		if (counter <= 0) {
+			SceneManager.LoadScene ("GameOver");
+		}
 	}
 }
 

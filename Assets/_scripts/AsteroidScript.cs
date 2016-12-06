@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class AsteroidScript : MonoBehaviour {
 
@@ -52,6 +53,9 @@ public class AsteroidScript : MonoBehaviour {
 		if (c.gameObject.CompareTag ("Missle"))
 		{
 			PlayerStats.Instance.IncrementScore (value);
+			if (AsteroidCounter.counter == 0) {
+				SceneManager.LoadScene ("GameOver");
+			}
 			Explode ();
 			Destroy (c.gameObject);
 		}
@@ -80,8 +84,8 @@ public class AsteroidScript : MonoBehaviour {
 		//rb.AddExplosionForce (1000, transform.position, 100);
 		if(Random.Range(0,100)<=spawn1upChance)
 			Instantiate (OneUp, transform.position, Quaternion.identity);
-		AsteroidCounter.decrememt (1);
 		AsteroidCounter.increment (2);
+		AsteroidCounter.decrememt (1);
 		Destroy (gameObject);
 	}
 		

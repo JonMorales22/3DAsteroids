@@ -8,7 +8,7 @@ public class ForceFieldScript : MonoBehaviour {
 	public bool isDown;
 
 	private int health;
-	private int maxHealth=20;
+	private int maxHealth=100;
 
 	private float immunityTime = 3.0f;
 

@@ -13,7 +13,7 @@ public class PlayerStats : MonoBehaviour {
 	private int health;
 
 	private int startHealth = 10;
-	private int startLives = 1;
+	private int startLives = 3;
 
 	private float immunityTime = 3.0f;
 
@@ -26,7 +26,6 @@ public class PlayerStats : MonoBehaviour {
 	{
 		get {return _instance ?? (_instance = new GameObject("PlayerStats").AddComponent<PlayerStats>()); }
 	}
-
 	// Use this for initialization
 	void Awake () {
 		score = 0;
@@ -40,6 +39,9 @@ public class PlayerStats : MonoBehaviour {
 	public void IncrementScore(int num)
 	{
 		score += num;
+		if (AsteroidCounter.counter == 0) {
+			SceneManager.LoadScene ("GameOver");
+		}
 	}
 
 	//very similar to the TakeDamage method in ForceFieldScript. Only difference is we check to see if forcefield is down or if its in an immunity state

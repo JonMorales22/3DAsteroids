@@ -9,7 +9,7 @@ public class SmallAsteroidScript : AsteroidScript {
 		Instantiate (explosion, transform.position, Quaternion.identity);
 		if(Random.Range(0,100)<=spawn1upChance)
 			Instantiate (OneUp, transform.position, Quaternion.identity);
-		AsteroidCounter.counter--;
+		AsteroidCounter.decrememt(1);
 		Destroy (gameObject);
 	}
 }
