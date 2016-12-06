@@ -55,6 +55,10 @@ public class AsteroidScript : MonoBehaviour {
 			Explode ();
 			Destroy (c.gameObject);
 		}
+		if (c.gameObject.CompareTag ("Laser")) {
+			Explode ();
+			Destroy (c.gameObject);
+		}
 		if (c.gameObject.CompareTag ("Player"))
 		{
 			//Rigidbody playerRB = c.gameObject.GetComponent<Rigidbody>();

@@ -7,6 +7,7 @@ public class LaserBeamScript : MissleController {
 	//private Transform playerT;
 	//public AudioClip hitPlayer;
 	public GameObject hitPlayer;
+	public GameObject normExplode;
 
 	public override void Explode ()
 	{
@@ -20,6 +21,9 @@ public class LaserBeamScript : MissleController {
 			GameObject obj = (GameObject)Instantiate (hitPlayer, transform.position, Quaternion.identity);
 			Destroy (obj, 3);
 			Destroy (gameObject);
+		}
+		if (c.gameObject.CompareTag ("Asteroid")) {
+			Instantiate (normExplode, transform.position, Quaternion.identity);
 		}
 	}
 }

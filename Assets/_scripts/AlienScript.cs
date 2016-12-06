@@ -21,9 +21,10 @@ public class AlienScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//transform.RotateAround (Vector3.zero, transform.up, Time.deltaTime*10);
-		transform.LookAt (playerTrans.position);
-		spawn.transform.LookAt (playerTrans.position);
+		//ship is hard to see when it looks directly at player, so I make it look at a point slight below player to keep the ship angled to make it easier to see
+		transform.LookAt(playerTrans.position+new Vector3(0,-10,0));
+
+		//DEBUG ONLY
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			Fire ();
 		}
@@ -55,11 +56,11 @@ public class AlienScript : MonoBehaviour {
 	}
 	void Fire()
 	{
-		Vector3 vec = randVectorRadius (-5, 5);
+		//Vector3 vec = randVectorRadius (-1, 1);
 		GameObject foo = (GameObject)Instantiate (laser, spawn.position, Quaternion.identity);
 		Rigidbody missleRB = foo.GetComponent<Rigidbody> ();
 		//missleRB.AddForce (((playerTrans.position-transform.position)+vec)*speed);//<----------DISABLED FOR DEBUGGING
-		missleRB.AddForce (((playerTrans.position-transform.position))*speed);//<--------USED FOR TESTING
+		missleRB.AddForce (((playerTrans.position-spawn.transform.position))*speed);//<--------USED FOR TESTING
 	}
 
 	Vector3 randVectorRadius(int num, int num2)
