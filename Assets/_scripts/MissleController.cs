@@ -8,11 +8,13 @@ public class MissleController : MonoBehaviour {
 	public Rigidbody rb;
 	public Transform playerT;
 
+	private float torqueSpeed=500;
 	// Use this for initialization
 	void Start () {
 		Destroy (gameObject, 5.0f);
+
 		playerT= GameObject.FindWithTag ("Player").GetComponent<Transform>();
-		rb = GetComponent<Rigidbody> ();
+		rb = GetComponent<Rigidbody> ();		
 	}
 
 	//I don't remember why I put this here

@@ -14,6 +14,7 @@ public class StatePatternEnemy : MonoBehaviour {
 	public float chaseDistance;
 	public float laserSpeed;
 	public float maxSpeed;
+	public float attackTime;
 
 	[HideInInspector] 
 	public float distance;
@@ -106,7 +107,7 @@ public class StatePatternEnemy : MonoBehaviour {
 	private IEnumerator AttackPlayer()
 	{
 		isAttacking = true;
-		yield return new WaitForSeconds (5.0f);
+		yield return new WaitForSeconds (attackTime);
 		Fire();
 		isAttacking = false;
 	}

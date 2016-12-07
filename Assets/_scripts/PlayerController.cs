@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour {
 	public GameObject[] panel;
 	public GameObject[] explosions;
 
-
 	private float yaw = 0.0f;
 	private float pitch = 0.0f;
 	private float roll = 0.0f;
@@ -109,8 +108,10 @@ public class PlayerController : MonoBehaviour {
 		if (!isDead) {
 			if (!panel [0].activeSelf) {
 				panel [0].SetActive (true);
+				panel [2].SetActive (true);
 				yield return new WaitForSeconds (3.0f);
 				panel [0].SetActive (false);
+				panel [2].SetActive (false);
 			}
 		}
 	}
