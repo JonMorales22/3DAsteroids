@@ -105,6 +105,7 @@ public class PlayerStats : MonoBehaviour {
 		yield return new WaitForSeconds(4.0f);
 		if (lives > 0)
 		{
+			AsteroidCounter.counter = 0;
 			isDead = false;
 			health = startHealth;
 			score = 0;
@@ -125,6 +126,7 @@ public class PlayerStats : MonoBehaviour {
 
 	public void Reset()
 	{
+		AsteroidCounter.counter = 0;
 		isDead = false;
 		health = startHealth;
 		score = 0;

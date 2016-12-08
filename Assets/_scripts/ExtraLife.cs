@@ -2,11 +2,13 @@
 using System.Collections;
 
 public class ExtraLife : MonoBehaviour {
+	public float seconds;
 	private AudioSource audiosource;
 
 	void Start()
 	{
 		audiosource = GetComponent<AudioSource>();
+		Destroy (gameObject, seconds);
 	}
 
 	void OnTriggerEnter(Collider c)

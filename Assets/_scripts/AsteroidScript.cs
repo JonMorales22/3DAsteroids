@@ -30,6 +30,7 @@ public class AsteroidScript : MonoBehaviour {
 		rb = GetComponent<Rigidbody> ();
 		player = GameObject.FindWithTag ("Player").GetComponent<Transform>();
 		audiosource = GetComponent<AudioSource> ();
+		IncrementAsteroid ();
 	}
 
 	// Update is called once per frame
@@ -78,17 +79,20 @@ public class AsteroidScript : MonoBehaviour {
 	public virtual void Explode()
 	{
 
-		Instantiate (SmallAsteroid, transform.position+transform.right*-2, Quaternion.identity,transform.parent);
-		Instantiate (SmallAsteroid, transform.position+transform.right*2, Quaternion.identity,transform.parent);
+		Instantiate (SmallAsteroid, transform.position+(Random.onUnitSphere*-2), Quaternion.identity,transform.parent);
+		Instantiate (SmallAsteroid, transform.position+(Random.onUnitSphere*2), Quaternion.identity,transform.parent);
 		Instantiate (explosion, transform.position, Quaternion.identity);
 		//rb.AddExplosionForce (1000, transform.position, 100);
 		if(Random.Range(0,100)<=spawn1upChance)
 			Instantiate (OneUp, transform.position, Quaternion.identity);
-		AsteroidCounter.increment (2);
+		//AsteroidCounter.increment (2);
 		AsteroidCounter.decrememt (1);
 		Destroy (gameObject);
 	}
-		
+	public void IncrementAsteroid()
+	{
+		AsteroidCounter.increment (1);
+	}
 	//Sends the asteroid towards the a point in a sphere around the player's current position
 	public void Attack()
 	{

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 //static class used to hold number of asteroids
 public static class AsteroidCounter
 {
-	public static int counter;
+	public static int counter=0;
 
 	public static void setCounter(int num)
 	{
@@ -29,7 +29,7 @@ public class AttackScript : MonoBehaviour {
 
 	//public GameObject asteroid;
 	public float time;
-	public float numAsteroids;
+	public int numAsteroids;
 	public float spawnRadius;
 
 	public float force=750.0f;
@@ -43,7 +43,7 @@ public class AttackScript : MonoBehaviour {
 	void Start () {
 		//First we get all the asteroids in children, then we use static class AsteroidCounter to hold the number of asteroids
 		//asteroids = GetComponentsInChildren<AsteroidScript> ();
-		AsteroidCounter.setCounter ((int)numAsteroids);
+		//AsteroidCounter.setCounter (numAsteroids);
 		SpawnAsteroids ();
 		//StartCoroutine("AttackPlayer");
 	}
