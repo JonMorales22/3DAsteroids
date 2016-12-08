@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 	public float speedH = 2.0f;
@@ -65,7 +66,7 @@ public class PlayerController : MonoBehaviour {
 			}
 
 			if (Input.GetKey (KeyCode.Escape)) {
-				Application.Quit ();
+				SceneManager.LoadScene ("GameOver");
 			}
 
 		} else {
