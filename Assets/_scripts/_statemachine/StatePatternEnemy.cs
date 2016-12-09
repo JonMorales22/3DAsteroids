@@ -53,8 +53,8 @@ public class StatePatternEnemy : MonoBehaviour {
 		//spawn.transform.LookAt(playerT.position);
 
 		//FOR DEBUG ONLY
-		if (Input.GetKeyDown (KeyCode.Space))
-			Fire ();
+//		if (Input.GetKeyDown (KeyCode.Space))
+//			Fire ();
 		
 		currentState.UpdateState ();
 		CalcPlayerDistance ();
@@ -119,11 +119,11 @@ public class StatePatternEnemy : MonoBehaviour {
 	}
 	private void Fire()
 	{
-		//Vector3 vec = randVectorRadius (-1, 1);
-		Vector3 vec = new Vector3(0,1,0);
+		Vector3 vec = Random.insideUnitSphere;
+		//Vector3 vec = new Vector3(0,1,0);
 		GameObject foo = (GameObject)Instantiate (laser, spawn.transform.position, Quaternion.identity);
 		Rigidbody missleRB = foo.GetComponent<Rigidbody> ();
-		missleRB.AddForce (((playerT.position-spawn.transform.position))*laserSpeed);//<----------DISABLED FOR DEBUGGING
+		missleRB.AddForce (((playerT.position-spawn.transform.position)+vec)*laserSpeed);//<----------DISABLED FOR DEBUGGING
 		//missleRB.AddForce (((playerT.position-spawn.transform.position))*laserSpeed);//<--------USED FOR TESTING
 	}
 

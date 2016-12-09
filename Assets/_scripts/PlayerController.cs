@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
@@ -12,12 +13,13 @@ public class PlayerController : MonoBehaviour {
 
 	public float min;
 	public float max;
-	public bool isDead=false;
-
+	public int ammo;
+	public bool isDead = false;
+	public bool targetAcquired = false;
 	public AudioClip dieSound;
 	public AudioClip hitSound;
 
-	public GameObject missle;
+	public GameObject[] missles;
 
 	public GameObject[] panel;
 	public GameObject[] explosions;
@@ -27,9 +29,12 @@ public class PlayerController : MonoBehaviour {
 	private float roll = 0.0f;
 	private Rigidbody rb;
 	private AudioSource audioSource;
+
 	private PlayerStats stats;
+	public Transform target;
 
 	private bool isExploding=false;
+	private bool isHoming = false;
 	// Use this for initialization
 	void Start () {
 		//panel = GameObject.FindWithTag ("CrashPanel");
@@ -57,6 +62,15 @@ public class PlayerController : MonoBehaviour {
 			if (Input.GetMouseButtonDown (0))
 				Fire ();
 
+			if (Input.GetMouseButtonDown (1))
+			{
+				isHoming = !isHoming;
+				SetPanel (panel[4]);
+			}
+
+			if (Input.GetKeyDown (KeyCode.Space))
+				AcquireTarget ();
+
 			if (Input.GetKey (KeyCode.UpArrow)) {
 				rb.AddForce (transform.forward * thrust);
 				playThrust ();
@@ -78,6 +92,14 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	void SetPanel(GameObject gb)
+	{
+		if (gb.activeSelf) {
+			gb.SetActive (false);
+		} else
+			gb.SetActive (true);
+	}
+
 	void OnCollisionEnter(Collision c)
 	{
 		if (c.gameObject.CompareTag ("Asteroid")||c.gameObject.CompareTag("Enemy")) 
@@ -89,12 +111,34 @@ public class PlayerController : MonoBehaviour {
 			//}
 		}
 	}
+	public void AcquireTarget()
+	{
+			RaycastHit hit;
+			if (Physics.Raycast (transform.position, transform.forward, out hit))
+			if (hit.collider.gameObject.CompareTag ("Asteroid")) {
+				panel [3].gameObject.GetComponent<Image> ().color = Color.red;
+				target = hit.collider.gameObject.transform;
+				targetAcquired = true;
+			}
 
+	}
 	public void Fire()
 	{
-		GameObject foo = (GameObject)Instantiate (missle, transform.forward+transform.position, Quaternion.identity);
-		Rigidbody missleRB = foo.GetComponent<Rigidbody> ();
-		missleRB.AddForce (transform.forward * missleForce);
+		if (target != null&&ammo>0) {
+			GameObject foo = (GameObject)Instantiate (missles [1], transform.forward + transform.position, Quaternion.identity);
+			foo.BroadcastMessage ("setTarget", target.transform);
+			ammo--;
+		}
+		else
+		{
+			GameObject foo = (GameObject)Instantiate (missles [0], transform.forward + transform.position, Quaternion.identity);
+			Rigidbody missleRB = foo.GetComponent<Rigidbody> ();
+			missleRB.AddForce (transform.forward * missleForce);
+		}
+		target = null;
+		targetAcquired = false;
+		panel [3].gameObject.GetComponent<Image> ().color = Color.white;
+		//
 	}
 	public void StartNotifyCrash()
 	{

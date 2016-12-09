@@ -4,11 +4,11 @@ using System.Collections;
 public class MissleController : MonoBehaviour {
 	
 	public GameObject explosion;
-
 	public Rigidbody rb;
+
+	[HideInInspector]
 	public Transform playerT;
 
-	private float torqueSpeed=500;
 	// Use this for initialization
 	void Start () {
 		Destroy (gameObject, 5.0f);
@@ -41,9 +41,10 @@ public class MissleController : MonoBehaviour {
 			 * y=(sqrt(36-x^2))6 ---> when we are at x=6, y=0 so the camera won't shake
 			 * 					 ---> when we are at x=1, y=.98 so the camera will shake at nearly what I want the max to be.
 			*/
-			float shakeAmount = (Mathf.Sqrt (36 - (distance*distance)))/6;
+			float shakeAmount = (Mathf.Sqrt (36 - (distance*distance)))/12;
 			Camera.main.GetComponent<CameraShake> ().StartShake (shakeAmount);
 		}
+
 		Destroy (gameObject);
 	}
 
