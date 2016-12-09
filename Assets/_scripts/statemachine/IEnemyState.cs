@@ -8,5 +8,6 @@ public interface IEnemyState {
 	void ToAttackState ();
 	void ToChaseState ();
 	void ToEvadeState ();
+	void ToOrbitState ();
 
 }

@@ -14,15 +14,17 @@ public class EvadeState : IEnemyState {
 	{
 		Debug.Log ("In Evade mode");
 		enemy.EvadePlayer ();
-		ToAttackState ();
+		ToOrbitState ();
 		ToChaseState ();
 	}
-
-	public void ToAttackState()
+	public void ToAttackState(){
+	
+	}
+	public void ToOrbitState()
 	{
 		//Not sure if second if statement is needed
 		if (enemy.distance >= 5.0f && enemy.distance<=10.0f) 
-			enemy.currentState = enemy.attackState;
+			enemy.currentState = enemy.orbitState;
 	}
 
 	public void ToChaseState()

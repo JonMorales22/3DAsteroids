@@ -16,13 +16,14 @@ public class StatePatternEnemy : MonoBehaviour {
 	public float maxSpeed;
 	public float attackTime;
 
-	[HideInInspector] 
+	//[HideInInspector] 
 	public float distance;
 	[HideInInspector] public Transform chaseTarget;
 	[HideInInspector] public IEnemyState currentState;
 	[HideInInspector] public AttackState attackState;
 	[HideInInspector] public ChaseState chaseState;
 	[HideInInspector] public EvadeState evadeState;
+	[HideInInspector] public OrbitState orbitState;
 
 	private bool isAttacking;
 	private Rigidbody rb;
@@ -36,6 +37,7 @@ public class StatePatternEnemy : MonoBehaviour {
 		attackState = new AttackState (this);
 		chaseState = new ChaseState (this);
 		evadeState = new EvadeState (this);
+		orbitState = new OrbitState (this);
 	}
 
 	void Start()
@@ -43,9 +45,9 @@ public class StatePatternEnemy : MonoBehaviour {
 		//spawn = GetComponentInChildren<Transform> ();
 		playerT = GameObject.FindWithTag ("Player").GetComponent<Transform>();
 		rb = GetComponent<Rigidbody> ();
-		currentState = attackState;
+		currentState = orbitState;
 	}
-	void Update()
+	void FixedUpdate()
 	{
 		transform.LookAt(playerT.position+new Vector3(0,-10,0));
 		//spawn.transform.LookAt(playerT.position);
@@ -68,7 +70,11 @@ public class StatePatternEnemy : MonoBehaviour {
 
 		distance = Mathf.Sqrt (xVal + yVal + zVal);
 	}
-
+	public void OrbitPlayer()
+	{
+		transform.RotateAround (Vector3.zero, transform.forward, 15 * Time.deltaTime);
+		StartAttackPlayer ();
+	}
 //================FOR MOVEMENT===============================================================//
 	public void ChasePlayer()
 	{	

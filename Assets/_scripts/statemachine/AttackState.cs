@@ -23,6 +23,11 @@ public class AttackState : IEnemyState {
 		Debug.Log ("Attack State can't transition to self!!!");
 	}
 
+	public void ToOrbitState()
+	{
+		
+	}
+
 	public void ToChaseState()
 	{
 		if (enemy.distance > enemy.chaseDistance)
